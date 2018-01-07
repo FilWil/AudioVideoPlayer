@@ -29,21 +29,14 @@ namespace StarVideoPlayer
             WindowState = FormWindowState.Minimized;
         }
 
-        private void ButtonExit_MouseClick(object sender, MouseEventArgs e)
+        private void ExitButton_Click(object sender, EventArgs e)
         {
             CloseApplication(sender, e);
         }
 
-        private void ButtonMaximize_MouseClick(object sender, MouseEventArgs e)
-        {
-            
-        }
-
-        private void ButtonMinimize_MouseClick(object sender, MouseEventArgs e)
+        private void MinimizeButton_Click(object sender, EventArgs e)
         {
             Minimize(sender, e);
         }
-
-
     }
 }
