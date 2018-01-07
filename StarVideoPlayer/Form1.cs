@@ -14,13 +14,15 @@ namespace StarVideoPlayer
 {
     public partial class Form1 : Form
     {
-        bool moveFlag = false; //flaga, która sprawdza czy wciśnięto za pomocą myszki panel do przenoszenia okna
-        int mousePositionX, mousePositionY; //koordynaty myszki
-        bool panelMaximized = false; //flaga sprawdzająca czy okno zostało zmaksymalizowane
+        //ZMIENNE GLOBALNE
+        bool moveFlag = false;                      //flaga, która sprawdza czy wciśnięto za pomocą myszki panel do przenoszenia okna
+        int mousePositionX, mousePositionY;         //koordynaty myszki
+        bool panelMaximized = false;                //flaga sprawdzająca czy okno zostało zmaksymalizowane
 
-        private Video video;
-        private string[] videoPaths;
-        private string folderPath = @"C:\vidia\";
+        private Video video;                        //prywatna zmienna pobierająca aktualnie wybrane video
+        private Audio audio;                        //prywatna zmienna pobierająca aktualnie wybrane audio
+        private List <string> videoPaths = new List<string>();
+        //private string[] audioPaths;
         private int selectedIndex = 0;
         private Size formSize;
         private Size pnlSize;
@@ -35,13 +37,19 @@ namespace StarVideoPlayer
             formSize = new Size(this.Width, this.Height);
             pnlSize = new Size(playerPanel.Width, playerPanel.Height);
 
-            videoPaths = Directory.GetFiles(folderPath, "*.wmv");
+            var ofd = new OpenFileDialog();
+            ofd.Filter = "Video files (*.wmv, *.avi)|*.wmv;*.avi|Audio files (*.mp3)|*.mp3";
+            ofd.Multiselect = true;
 
-            if (videoPaths != null)
+            if (ofd.ShowDialog() == DialogResult.OK)
             {
-                foreach (string path in videoPaths)
+                foreach (string file in ofd.FileNames)
                 {
-                    Console.WriteLine(path);
+                    try
+                    {
+                        videoPaths.Add(file);
+                    }
+                    catch { }
                 }
             }
         }
@@ -71,7 +79,6 @@ namespace StarVideoPlayer
             NextVideo();
         }
 
-
         private void RewindButton_Click(object sender, EventArgs e)
         {
             PreviousVideo();
@@ -81,7 +88,7 @@ namespace StarVideoPlayer
         {
             int index = selectedIndex;
             index++;
-            if (index > videoPaths.Length - 1) index = 0;
+            if (index > videoPaths.Count - 1) index = 0;
             selectedIndex = index;
             VideoPlayer();
         }
@@ -90,7 +97,7 @@ namespace StarVideoPlayer
         {
             int index = selectedIndex;
             index--;
-            if (index == -1) index = videoPaths.Length - 1;
+            if (index == -1) index = videoPaths.Count - 1;
             selectedIndex = index;
             VideoPlayer();
         }
@@ -109,7 +116,24 @@ namespace StarVideoPlayer
                 Owner = playerPanel
             };
             playerPanel.Size = pnlSize;
+            video.Ending += Video_Ending;
             video.Play();
+        }
+
+        private void Video_Ending(object sender, EventArgs e)
+        {
+            Task.Factory.StartNew(() =>
+            {
+                System.Threading.Thread.Sleep(2000);
+
+                if (InvokeRequired)
+                {
+                    this.Invoke(new Action(() =>
+                    {
+                        NextVideo();
+                    }));
+                }
+            });
         }
 
         private void PlayButton_Click(object sender, EventArgs e)
@@ -169,11 +193,27 @@ namespace StarVideoPlayer
             }
         }
 
+        //Przycisk stop - pauza i kontynuowanie filmu po porzednim zatrzymaniu
+        private void stopButton_Click(object sender, EventArgs e)
+        {
+            if (!video.Playing)
+            {
+                video.Play();
+            }
+            else if (video.Playing)
+            {
+                video.Pause();
+            }
+        }
+
+        private void volumeControl_Scroll(object sender, EventArgs e)
+        {
+            if (video.Playing) video.Audio.Volume = volumeControl.Value;
+        }
+
         private void HeadPanel_MouseUp(object sender, MouseEventArgs e)
         {
             moveFlag = false; //jeśli oderwano myszkę od panela, to flaga ustawia się na false
-        }
-
-        
+        }  
     }
 }

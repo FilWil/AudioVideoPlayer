@@ -36,6 +36,7 @@
             this.recentlyViewedButton = new System.Windows.Forms.Button();
             this.nowPlayingButton = new System.Windows.Forms.Button();
             this.controlsPanel = new System.Windows.Forms.Panel();
+            this.volumeControl = new System.Windows.Forms.TrackBar();
             this.stopButton = new System.Windows.Forms.Button();
             this.rewindButton = new System.Windows.Forms.Button();
             this.fastForwardButton = new System.Windows.Forms.Button();
@@ -45,12 +46,11 @@
             this.minimizeButton = new System.Windows.Forms.Button();
             this.maximizeButton = new System.Windows.Forms.Button();
             this.exitButton = new System.Windows.Forms.Button();
-            this.volumeControl = new System.Windows.Forms.TrackBar();
             this.leftPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.logoPictureBox)).BeginInit();
             this.controlsPanel.SuspendLayout();
-            this.headPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.volumeControl)).BeginInit();
+            this.headPanel.SuspendLayout();
             this.SuspendLayout();
             // 
             // leftPanel
@@ -161,6 +161,17 @@
             this.controlsPanel.Size = new System.Drawing.Size(819, 79);
             this.controlsPanel.TabIndex = 1;
             // 
+            // volumeControl
+            // 
+            this.volumeControl.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.volumeControl.Location = new System.Drawing.Point(636, 22);
+            this.volumeControl.Maximum = 100;
+            this.volumeControl.Name = "volumeControl";
+            this.volumeControl.Size = new System.Drawing.Size(137, 45);
+            this.volumeControl.TabIndex = 6;
+            this.volumeControl.Value = 50;
+            this.volumeControl.Scroll += new System.EventHandler(this.volumeControl_Scroll);
+            // 
             // stopButton
             // 
             this.stopButton.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
@@ -176,6 +187,7 @@
             this.stopButton.TabIndex = 5;
             this.stopButton.Text = "\r\n";
             this.stopButton.UseVisualStyleBackColor = true;
+            this.stopButton.Click += new System.EventHandler(this.stopButton_Click);
             // 
             // rewindButton
             // 
@@ -310,15 +322,6 @@
             this.exitButton.UseVisualStyleBackColor = true;
             this.exitButton.Click += new System.EventHandler(this.ExitButton_Click);
             // 
-            // volumeControl
-            // 
-            this.volumeControl.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.volumeControl.Location = new System.Drawing.Point(636, 22);
-            this.volumeControl.Maximum = 100;
-            this.volumeControl.Name = "volumeControl";
-            this.volumeControl.Size = new System.Drawing.Size(137, 45);
-            this.volumeControl.TabIndex = 6;
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -336,8 +339,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.logoPictureBox)).EndInit();
             this.controlsPanel.ResumeLayout(false);
             this.controlsPanel.PerformLayout();
-            this.headPanel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.volumeControl)).EndInit();
+            this.headPanel.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
