@@ -36,24 +36,6 @@ namespace StarVideoPlayer
         {
             formSize = new Size(this.Width, this.Height);
             pnlSize = new Size(playerPanel.Width, playerPanel.Height);
-
-            var ofd = new OpenFileDialog
-            {
-                Filter = "Video files (*.avi, *.flv, *.wmv, *.divX, *.xvid, *.mpeg, *.mpg)|*.avi;*.flv;*.wmv;*.divX;*.xvid;*.mpeg;*.mpg|Audio files (*.mp3)|*.mp3",
-                Multiselect = true
-            };
-
-            if (ofd.ShowDialog() == DialogResult.OK)
-            {
-                foreach (string file in ofd.FileNames)
-                {
-                    try
-                    {
-                        videoPaths.Add(file);
-                    }
-                    catch { }
-                }
-            }
         }
 
         private void CloseApplication(Object sender, EventArgs e)
@@ -131,13 +113,16 @@ namespace StarVideoPlayer
             }
             catch { }
 
-            video = new Video(videoPaths[selectedIndex], false)
+            if(videoPaths.Count != 0)
             {
-                Owner = playerPanel
-            };
-            playerPanel.Size = pnlSize;
-            video.Ending += Video_Ending;
-            video.Play();
+                video = new Video(videoPaths[selectedIndex], false)
+                {
+                    Owner = playerPanel
+                };
+                playerPanel.Size = pnlSize;
+                video.Ending += Video_Ending;
+                video.Play();
+            }
         }
         
         private void Video_Ending(object sender, EventArgs e)
@@ -230,6 +215,27 @@ namespace StarVideoPlayer
         private void VolumeControl_Scroll(object sender, EventArgs e)
         {
             if (video.Playing) video.Audio.Volume = volumeControl.Value; //Audio.Volume jest z zakresu (-10000, 0), gdzie 0 to maksymalna głośność - im mniejsza wartość tym bardziej jest wyciszone
+        }
+
+        private void filesDialogButton_Click(object sender, EventArgs e)
+        {
+            var ofd = new OpenFileDialog
+            {
+                Filter = "Video files (*.avi, *.flv, *.wmv, *.divX, *.xvid, *.mpeg, *.mpg)|*.avi;*.flv;*.wmv;*.divX;*.xvid;*.mpeg;*.mpg",
+                Multiselect = true
+            };
+
+            if (ofd.ShowDialog() == DialogResult.OK)
+            {
+                foreach (string file in ofd.FileNames)
+                {
+                    try
+                    {
+                        videoPaths.Add(file);
+                    }
+                    catch { }
+                }
+            }
         }
 
         private void HeadPanel_MouseUp(object sender, MouseEventArgs e)
