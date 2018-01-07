@@ -21,7 +21,7 @@ namespace StarVideoPlayer
 
         private Video video;                        //prywatna zmienna pobierająca aktualnie wybrane video
         private Audio audio;                        //prywatna zmienna pobierająca aktualnie wybrane audio
-        private List <string> videoPaths = new List<string>();
+        private List<string> videoPaths = new List<string>();
         //private string[] audioPaths;
         private int selectedIndex = 0;
         private Size formSize;
@@ -37,9 +37,11 @@ namespace StarVideoPlayer
             formSize = new Size(this.Width, this.Height);
             pnlSize = new Size(playerPanel.Width, playerPanel.Height);
 
-            var ofd = new OpenFileDialog();
-            ofd.Filter = "Video files (*.avi, *.flv, *.wmv, *.divX, *.xvid, *.mpeg, *.mpg)|*.avi;*.flv;*.wmv;*.divX;*.xvid;*.mpeg;*.mpg|Audio files (*.mp3)|*.mp3";
-            ofd.Multiselect = true;
+            var ofd = new OpenFileDialog
+            {
+                Filter = "Video files (*.avi, *.flv, *.wmv, *.divX, *.xvid, *.mpeg, *.mpg)|*.avi;*.flv;*.wmv;*.divX;*.xvid;*.mpeg;*.mpg|Audio files (*.mp3)|*.mp3",
+                Multiselect = true
+            };
 
             if (ofd.ShowDialog() == DialogResult.OK)
             {
@@ -91,6 +93,11 @@ namespace StarVideoPlayer
             if (index > videoPaths.Count - 1) index = 0;
             selectedIndex = index;
             VideoPlayer();
+
+            if (panelMaximized)
+            {
+                playerPanel.Size = new Size(Width, Height);
+            }
         }
 
         private void PreviousVideo()
@@ -100,6 +107,11 @@ namespace StarVideoPlayer
             if (index == -1) index = videoPaths.Count - 1;
             selectedIndex = index;
             VideoPlayer();
+
+            if (panelMaximized)
+            {
+                playerPanel.Size = new Size(Width, Height);
+            }
         }
 
         private void VideoPlayer()
@@ -119,7 +131,7 @@ namespace StarVideoPlayer
             video.Ending += Video_Ending;
             video.Play();
         }
-
+        
         private void Video_Ending(object sender, EventArgs e)
         {
             Task.Factory.StartNew(() =>
@@ -163,7 +175,7 @@ namespace StarVideoPlayer
         {
             MaximizeWindowSize();
         }
-
+       
         private void MaximizeButton_Click(object sender, EventArgs e)
         {
             MaximizeWindowSize();
@@ -194,7 +206,7 @@ namespace StarVideoPlayer
         }
 
         //Przycisk stop - pauza i kontynuowanie filmu po porzednim zatrzymaniu
-        private void stopButton_Click(object sender, EventArgs e)
+        private void StopButton_Click(object sender, EventArgs e)
         {
             if (!video.Playing)
             {
@@ -206,9 +218,9 @@ namespace StarVideoPlayer
             }
         }
 
-        private void volumeControl_Scroll(object sender, EventArgs e)
+        private void VolumeControl_Scroll(object sender, EventArgs e)
         {
-            if (video.Playing) video.Audio.Volume = volumeControl.Value;
+            if (video.Playing) video.Audio.Volume = volumeControl.Value; //Audio.Volume jest z zakresu (-10000, 0), gdzie 0 to maksymalna głośność - im mniejsza wartość tym bardziej jest wyciszone
         }
 
         private void HeadPanel_MouseUp(object sender, MouseEventArgs e)

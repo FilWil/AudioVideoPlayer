@@ -164,13 +164,16 @@
             // volumeControl
             // 
             this.volumeControl.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.volumeControl.LargeChange = 1000;
             this.volumeControl.Location = new System.Drawing.Point(636, 22);
-            this.volumeControl.Maximum = 100;
+            this.volumeControl.Maximum = 0;
+            this.volumeControl.Minimum = -3000;
             this.volumeControl.Name = "volumeControl";
             this.volumeControl.Size = new System.Drawing.Size(137, 45);
+            this.volumeControl.SmallChange = 500;
             this.volumeControl.TabIndex = 6;
-            this.volumeControl.Value = 50;
-            this.volumeControl.Scroll += new System.EventHandler(this.volumeControl_Scroll);
+            this.volumeControl.Value = -1500;
+            this.volumeControl.Scroll += new System.EventHandler(this.VolumeControl_Scroll);
             // 
             // stopButton
             // 
@@ -187,7 +190,7 @@
             this.stopButton.TabIndex = 5;
             this.stopButton.Text = "\r\n";
             this.stopButton.UseVisualStyleBackColor = true;
-            this.stopButton.Click += new System.EventHandler(this.stopButton_Click);
+            this.stopButton.Click += new System.EventHandler(this.StopButton_Click);
             // 
             // rewindButton
             // 
