@@ -188,6 +188,7 @@
             this.rewindButton.TabIndex = 4;
             this.rewindButton.Text = "\r\n";
             this.rewindButton.UseVisualStyleBackColor = true;
+            this.rewindButton.Click += new System.EventHandler(this.rewindButton_Click);
             // 
             // fastForwardButton
             // 
@@ -203,6 +204,7 @@
             this.fastForwardButton.TabIndex = 3;
             this.fastForwardButton.Text = "\r\n";
             this.fastForwardButton.UseVisualStyleBackColor = true;
+            this.fastForwardButton.Click += new System.EventHandler(this.fastForwardButton_Click);
             // 
             // playButton
             // 
@@ -299,6 +301,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "Form1";
             this.Text = "Form1";
+            this.Load += new System.EventHandler(this.Form1_Load);
             this.leftPanel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.logoPictureBox)).EndInit();
             this.controlsPanel.ResumeLayout(false);
