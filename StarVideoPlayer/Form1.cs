@@ -14,6 +14,10 @@ namespace StarVideoPlayer
 {
     public partial class Form1 : Form
     {
+        bool moveFlag = false; //flaga, która sprawdza czy wciśnięto za pomocą myszki panel do przenoszenia okna
+        int mousePositionX, mousePositionY; //koordynaty myszki
+        bool panelMaximized = false; //flaga sprawdzająca czy okno zostało zmaksymalizowane
+
         private Video video;
         private string[] videoPaths;
         private string folderPath = @"C:\vidia\";
@@ -62,13 +66,13 @@ namespace StarVideoPlayer
             Minimize(sender, e);
         }
 
-        private void fastForwardButton_Click(object sender, EventArgs e)
+        private void FastForwardButton_Click(object sender, EventArgs e)
         {
             NextVideo();
         }
 
 
-        private void rewindButton_Click(object sender, EventArgs e)
+        private void RewindButton_Click(object sender, EventArgs e)
         {
             PreviousVideo();
         }
@@ -100,15 +104,76 @@ namespace StarVideoPlayer
             }
             catch { }
 
-            video = new Video(videoPaths[selectedIndex], false);
-            video.Owner = playerPanel;
+            video = new Video(videoPaths[selectedIndex], false)
+            {
+                Owner = playerPanel
+            };
             playerPanel.Size = pnlSize;
             video.Play();
         }
 
-        private void playButton_Click(object sender, EventArgs e)
+        private void PlayButton_Click(object sender, EventArgs e)
         {
             VideoPlayer();
         }
+
+        private void HeadPanel_MouseDown(object sender, MouseEventArgs e)
+        {
+            moveFlag = true; //jeśli naciśnięto za pomocą myszki na panel, to flaga ustawia się na true
+            //ustawia koordynaty myszki na obecne jej położenie
+            mousePositionX = Cursor.Position.X - Left;
+            mousePositionY = Cursor.Position.Y - Top;
+        }
+
+        private void HeadPanel_MouseMove(object sender, MouseEventArgs e)
+        {
+            if(moveFlag) 
+            {
+                Top = Cursor.Position.Y - mousePositionY;
+                Left = Cursor.Position.X - mousePositionX;
+            }
+            Cursor = Cursors.Default;
+        }
+
+        private void PlayerPanel_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            MaximizeWindowSize();
+        }
+
+        private void MaximizeButton_Click(object sender, EventArgs e)
+        {
+            MaximizeWindowSize();
+        }
+
+        private void MaximizeWindowSize()
+        {
+            //logika, która pozwala maksymalizowac okno, jeśli jest niezmaksymalizowane oraz wracać do wyjściowego stanu, jeśli było zmaksymalizowane
+            //po dwukrotnym wciśnięciu myszy
+            if (panelMaximized == false)
+            {
+                panelMaximized = true;
+            }
+            else
+            {
+                panelMaximized = false;
+            }
+
+            if (panelMaximized)
+            {
+                WindowState = FormWindowState.Maximized; //maksymalizuje całe okno
+                playerPanel.Size = new Size(Width, Height); //ustawia panel na maksymalny mozliwy rozmiar w oknie
+            }
+            else
+            {
+                WindowState = FormWindowState.Normal; //okno wraca do początkowych rozmiarów
+            }
+        }
+
+        private void HeadPanel_MouseUp(object sender, MouseEventArgs e)
+        {
+            moveFlag = false; //jeśli oderwano myszkę od panela, to flaga ustawia się na false
+        }
+
+        
     }
 }
