@@ -45,10 +45,12 @@
             this.minimizeButton = new System.Windows.Forms.Button();
             this.maximizeButton = new System.Windows.Forms.Button();
             this.exitButton = new System.Windows.Forms.Button();
+            this.volumeControl = new System.Windows.Forms.TrackBar();
             this.leftPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.logoPictureBox)).BeginInit();
             this.controlsPanel.SuspendLayout();
             this.headPanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.volumeControl)).BeginInit();
             this.SuspendLayout();
             // 
             // leftPanel
@@ -148,6 +150,7 @@
             // controlsPanel
             // 
             this.controlsPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(42)))), ((int)(((byte)(42)))));
+            this.controlsPanel.Controls.Add(this.volumeControl);
             this.controlsPanel.Controls.Add(this.stopButton);
             this.controlsPanel.Controls.Add(this.rewindButton);
             this.controlsPanel.Controls.Add(this.fastForwardButton);
@@ -307,6 +310,15 @@
             this.exitButton.UseVisualStyleBackColor = true;
             this.exitButton.Click += new System.EventHandler(this.ExitButton_Click);
             // 
+            // volumeControl
+            // 
+            this.volumeControl.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.volumeControl.Location = new System.Drawing.Point(636, 22);
+            this.volumeControl.Maximum = 100;
+            this.volumeControl.Name = "volumeControl";
+            this.volumeControl.Size = new System.Drawing.Size(137, 45);
+            this.volumeControl.TabIndex = 6;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -323,7 +335,9 @@
             this.leftPanel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.logoPictureBox)).EndInit();
             this.controlsPanel.ResumeLayout(false);
+            this.controlsPanel.PerformLayout();
             this.headPanel.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.volumeControl)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -347,6 +361,7 @@
         private System.Windows.Forms.Button recentlyViewedButton;
         private System.Windows.Forms.Button nowPlayingButton;
         private System.Windows.Forms.PictureBox logoPictureBox;
+        private System.Windows.Forms.TrackBar volumeControl;
     }
 }
 
