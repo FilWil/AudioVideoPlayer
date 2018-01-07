@@ -98,6 +98,10 @@ namespace StarVideoPlayer
             {
                 playerPanel.Size = new Size(Width, Height);
             }
+            else
+            {
+                playerPanel.Size = new Size(819, 610);
+            }
         }
 
         private void PreviousVideo()
@@ -111,6 +115,10 @@ namespace StarVideoPlayer
             if (panelMaximized)
             {
                 playerPanel.Size = new Size(Width, Height);
+            }
+            else
+            {
+                playerPanel.Size = new Size(819, 610);
             }
         }
 
@@ -202,6 +210,7 @@ namespace StarVideoPlayer
             else
             {
                 WindowState = FormWindowState.Normal; //okno wraca do początkowych rozmiarów
+                playerPanel.Size = new Size(819, 610); //panel wraca do pierwotnych rozmiarów
             }
         }
 
