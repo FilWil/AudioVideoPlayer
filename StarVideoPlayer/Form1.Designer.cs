@@ -220,6 +220,7 @@
             this.playButton.TabIndex = 2;
             this.playButton.Text = "\r\n";
             this.playButton.UseVisualStyleBackColor = true;
+            this.playButton.Click += new System.EventHandler(this.playButton_Click);
             // 
             // playerPanel
             // 

@@ -40,16 +40,6 @@ namespace StarVideoPlayer
                     Console.WriteLine(path);
                 }
             }
-
-            video = new Video(videoPaths[selectedIndex], false);
-            Console.WriteLine("video loaded");
-            video.Owner = playerPanel;
-            Console.WriteLine("video loaded 2");
-            playerPanel.Size = pnlSize;
-            Console.WriteLine("video loaded3");
-            video.Play();
-            Console.WriteLine("video played");
-            Console.WriteLine("ENJOY!");
         }
 
         private void CloseApplication(Object sender, EventArgs e)
@@ -89,6 +79,7 @@ namespace StarVideoPlayer
             index++;
             if (index > videoPaths.Length - 1) index = 0;
             selectedIndex = index;
+            VideoPlayer();
         }
 
         private void PreviousVideo()
@@ -97,6 +88,27 @@ namespace StarVideoPlayer
             index--;
             if (index == -1) index = videoPaths.Length - 1;
             selectedIndex = index;
+            VideoPlayer();
+        }
+
+        private void VideoPlayer()
+        {
+            try
+            {
+                video.Stop();
+                video.Dispose();
+            }
+            catch { }
+
+            video = new Video(videoPaths[selectedIndex], false);
+            video.Owner = playerPanel;
+            playerPanel.Size = pnlSize;
+            video.Play();
+        }
+
+        private void playButton_Click(object sender, EventArgs e)
+        {
+            VideoPlayer();
         }
     }
 }
