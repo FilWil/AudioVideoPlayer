@@ -38,7 +38,7 @@ namespace StarVideoPlayer
             pnlSize = new Size(playerPanel.Width, playerPanel.Height);
 
             var ofd = new OpenFileDialog();
-            ofd.Filter = "Video files (*.wmv, *.avi)|*.wmv;*.avi|Audio files (*.mp3)|*.mp3";
+            ofd.Filter = "Video files (*.avi, *.flv, *.wmv, *.divX, *.xvid, *.mpeg, *.mpg)|*.avi;*.flv;*.wmv;*.divX;*.xvid;*.mpeg;*.mpg|Audio files (*.mp3)|*.mp3";
             ofd.Multiselect = true;
 
             if (ofd.ShowDialog() == DialogResult.OK)
