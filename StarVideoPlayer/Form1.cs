@@ -49,6 +49,7 @@ namespace StarVideoPlayer
             Console.WriteLine("video loaded3");
             video.Play();
             Console.WriteLine("video played");
+            Console.WriteLine("ENJOY!");
         }
 
         private void CloseApplication(Object sender, EventArgs e)
