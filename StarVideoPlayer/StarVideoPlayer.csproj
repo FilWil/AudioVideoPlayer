@@ -109,6 +109,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="icons\001-maximize.png" />
+    <None Include="icons\folder.png" />
     <None Include="icons\video-player %281%29.png" />
     <None Include="icons\003-stop-21.png" />
     <None Include="icons\003-stop-1.png" />
