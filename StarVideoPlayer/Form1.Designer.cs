@@ -28,18 +28,21 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.leftPanel = new System.Windows.Forms.Panel();
             this.logoPictureBox = new System.Windows.Forms.PictureBox();
             this.favoritesButton = new System.Windows.Forms.Button();
             this.recentlyAddedButton = new System.Windows.Forms.Button();
+            this.filesDialogButton = new System.Windows.Forms.Button();
             this.recentlyPlayedButton = new System.Windows.Forms.Button();
             this.recentlyViewedButton = new System.Windows.Forms.Button();
             this.nowPlayingButton = new System.Windows.Forms.Button();
             this.controlsPanel = new System.Windows.Forms.Panel();
+            this.fileDurationLabel = new System.Windows.Forms.Label();
+            this.fileCurrentPositionLabel = new System.Windows.Forms.Label();
             this.volumeControl = new System.Windows.Forms.TrackBar();
             this.volumeButton = new System.Windows.Forms.Button();
             this.videoProgressControl = new System.Windows.Forms.TrackBar();
-            this.filesDialogButton = new System.Windows.Forms.Button();
             this.stopButton = new System.Windows.Forms.Button();
             this.previousTrackButton = new System.Windows.Forms.Button();
             this.nextTrackButton = new System.Windows.Forms.Button();
@@ -49,8 +52,7 @@
             this.minimizeButton = new System.Windows.Forms.Button();
             this.maximizeButton = new System.Windows.Forms.Button();
             this.exitButton = new System.Windows.Forms.Button();
-            this.fileCurrentPositionLabel = new System.Windows.Forms.Label();
-            this.fileDurationLabel = new System.Windows.Forms.Label();
+            this.timer = new System.Windows.Forms.Timer(this.components);
             this.leftPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.logoPictureBox)).BeginInit();
             this.controlsPanel.SuspendLayout();
@@ -112,6 +114,23 @@
             this.recentlyAddedButton.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.recentlyAddedButton.UseVisualStyleBackColor = true;
             // 
+            // filesDialogButton
+            // 
+            this.filesDialogButton.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.filesDialogButton.BackgroundImage = global::StarVideoPlayer.Properties.Resources.folder;
+            this.filesDialogButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.filesDialogButton.FlatAppearance.BorderSize = 0;
+            this.filesDialogButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.filesDialogButton.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.filesDialogButton.ImageAlign = System.Drawing.ContentAlignment.BottomRight;
+            this.filesDialogButton.Location = new System.Drawing.Point(53, 659);
+            this.filesDialogButton.Name = "filesDialogButton";
+            this.filesDialogButton.Size = new System.Drawing.Size(46, 45);
+            this.filesDialogButton.TabIndex = 7;
+            this.filesDialogButton.Text = "\r\n";
+            this.filesDialogButton.UseVisualStyleBackColor = true;
+            this.filesDialogButton.Click += new System.EventHandler(this.FilesDialogButton_Click);
+            // 
             // recentlyPlayedButton
             // 
             this.recentlyPlayedButton.FlatAppearance.BorderSize = 0;
@@ -172,6 +191,24 @@
             this.controlsPanel.Size = new System.Drawing.Size(819, 79);
             this.controlsPanel.TabIndex = 1;
             // 
+            // fileDurationLabel
+            // 
+            this.fileDurationLabel.AutoSize = true;
+            this.fileDurationLabel.Location = new System.Drawing.Point(361, 38);
+            this.fileDurationLabel.Name = "fileDurationLabel";
+            this.fileDurationLabel.Size = new System.Drawing.Size(28, 13);
+            this.fileDurationLabel.TabIndex = 11;
+            this.fileDurationLabel.Text = "2:00";
+            // 
+            // fileCurrentPositionLabel
+            // 
+            this.fileCurrentPositionLabel.AutoSize = true;
+            this.fileCurrentPositionLabel.Location = new System.Drawing.Point(6, 38);
+            this.fileCurrentPositionLabel.Name = "fileCurrentPositionLabel";
+            this.fileCurrentPositionLabel.Size = new System.Drawing.Size(28, 13);
+            this.fileCurrentPositionLabel.TabIndex = 10;
+            this.fileCurrentPositionLabel.Text = "0:00";
+            // 
             // volumeControl
             // 
             this.volumeControl.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
@@ -213,23 +250,6 @@
             this.videoProgressControl.Size = new System.Drawing.Size(273, 45);
             this.videoProgressControl.TabIndex = 8;
             this.videoProgressControl.Scroll += new System.EventHandler(this.VideoProgressControl_Scroll);
-            // 
-            // filesDialogButton
-            // 
-            this.filesDialogButton.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.filesDialogButton.BackgroundImage = global::StarVideoPlayer.Properties.Resources.folder;
-            this.filesDialogButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.filesDialogButton.FlatAppearance.BorderSize = 0;
-            this.filesDialogButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.filesDialogButton.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.filesDialogButton.ImageAlign = System.Drawing.ContentAlignment.BottomRight;
-            this.filesDialogButton.Location = new System.Drawing.Point(53, 659);
-            this.filesDialogButton.Name = "filesDialogButton";
-            this.filesDialogButton.Size = new System.Drawing.Size(46, 45);
-            this.filesDialogButton.TabIndex = 7;
-            this.filesDialogButton.Text = "\r\n";
-            this.filesDialogButton.UseVisualStyleBackColor = true;
-            this.filesDialogButton.Click += new System.EventHandler(this.FilesDialogButton_Click);
             // 
             // stopButton
             // 
@@ -381,23 +401,10 @@
             this.exitButton.UseVisualStyleBackColor = true;
             this.exitButton.Click += new System.EventHandler(this.ExitButton_Click);
             // 
-            // fileCurrentPositionLabel
+            // timer
             // 
-            this.fileCurrentPositionLabel.AutoSize = true;
-            this.fileCurrentPositionLabel.Location = new System.Drawing.Point(6, 38);
-            this.fileCurrentPositionLabel.Name = "fileCurrentPositionLabel";
-            this.fileCurrentPositionLabel.Size = new System.Drawing.Size(28, 13);
-            this.fileCurrentPositionLabel.TabIndex = 10;
-            this.fileCurrentPositionLabel.Text = "0:00";
-            // 
-            // fileDurationLabel
-            // 
-            this.fileDurationLabel.AutoSize = true;
-            this.fileDurationLabel.Location = new System.Drawing.Point(361, 38);
-            this.fileDurationLabel.Name = "fileDurationLabel";
-            this.fileDurationLabel.Size = new System.Drawing.Size(28, 13);
-            this.fileDurationLabel.TabIndex = 11;
-            this.fileDurationLabel.Text = "2:00";
+            this.timer.Enabled = true;
+            this.timer.Tick += new System.EventHandler(this.Timer1_Tick);
             // 
             // Form1
             // 
@@ -448,6 +455,7 @@
         private System.Windows.Forms.Button volumeButton;
         private System.Windows.Forms.Label fileDurationLabel;
         private System.Windows.Forms.Label fileCurrentPositionLabel;
+        private System.Windows.Forms.Timer timer;
     }
 }
 

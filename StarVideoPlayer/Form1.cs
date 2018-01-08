@@ -16,12 +16,12 @@ namespace StarVideoPlayer
     public partial class Form1 : Form
     {
         //ZMIENNE GLOBALNE
-        bool moveFlag = false;                      //flaga, która sprawdza czy wciśnięto za pomocą myszki panel do przenoszenia okna
-        int mousePositionX, mousePositionY;         //koordynaty myszki
-        bool panelMaximized = false;                //flaga sprawdzająca czy okno zostało zmaksymalizowane
+        bool moveFlag = false;                                      //flaga, która sprawdza czy wciśnięto za pomocą myszki panel do przenoszenia okna
+        int mousePositionX, mousePositionY;                         //koordynaty myszki
+        bool panelMaximized = false;                                //flaga sprawdzająca czy okno zostało zmaksymalizowane
 
-        private Video video;                        //prywatna zmienna pobierająca aktualnie wybrane video
-        private Audio audio;                        //prywatna zmienna pobierająca aktualnie wybrane audio
+        private Video video;                                        //prywatna zmienna pobierająca aktualnie wybrane video
+        private Audio audio;                                        //prywatna zmienna pobierająca aktualnie wybrane audio
         private List<string> videoPaths = new List<string>();
         //private string[] audioPaths;
         private int selectedIndex = 0;
@@ -236,11 +236,11 @@ namespace StarVideoPlayer
                 {
                     try
                     {
-                        if(ofd.FilterIndex == 1)
+                        if(ofd.FilterIndex == 1) //dla plików video
                         {
                             videoPaths.Add(file);
                         }
-                        else
+                        else //dla plików audio
                         {
                             //dodaj audio
                             Debug.WriteLine("Dodano plik audio");
@@ -259,9 +259,7 @@ namespace StarVideoPlayer
             {
                 videoProgressControl.Maximum = Convert.ToInt32(video.Duration); //ustawia maksymalną wartość paska na długość filmu
                 video.CurrentPosition = videoProgressControl.Value; //sterowanie czasem filmu za pomocą suwaka
-                //poniższy kod wrzucić do timera
-                fileDurationLabel.Text = Convert.ToInt32(video.Duration).ToString();
-                fileCurrentPositionLabel.Text = Convert.ToInt32(video.CurrentPosition).ToString();
+                
             }
         }
 
@@ -275,6 +273,16 @@ namespace StarVideoPlayer
         private void VolumeControl_MouseLeave(object sender, EventArgs e)
         {
             volumeControl.Visible = false;
+        }
+
+        private void Timer1_Tick(object sender, EventArgs e)
+        {
+            if (video != null)
+            {
+                fileDurationLabel.Text = Convert.ToInt32(video.Duration).ToString(); //pokazuje obecny czas, w którym znajduje się film na labelu
+                fileCurrentPositionLabel.Text = Convert.ToInt32(video.CurrentPosition).ToString(); //pokazuje długość trwania filmu w labelu
+            }
+            
         }
 
         private void HeadPanel_MouseUp(object sender, MouseEventArgs e)
