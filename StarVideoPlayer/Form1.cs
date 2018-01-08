@@ -217,7 +217,7 @@ namespace StarVideoPlayer
             if (video.Playing) video.Audio.Volume = volumeControl.Value; //Audio.Volume jest z zakresu (-10000, 0), gdzie 0 to maksymalna głośność - im mniejsza wartość tym bardziej jest wyciszone
         }
 
-        private void filesDialogButton_Click(object sender, EventArgs e)
+        private void FilesDialogButton_Click(object sender, EventArgs e)
         {
             var ofd = new OpenFileDialog
             {

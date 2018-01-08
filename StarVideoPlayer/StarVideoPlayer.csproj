@@ -108,6 +108,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="icons\001-delete.png" />
     <Content Include="icons\001-maximize.png" />
     <None Include="icons\folder.png" />
     <None Include="icons\video-player %281%29.png" />
@@ -115,7 +116,9 @@
     <None Include="icons\003-stop-1.png" />
     <None Include="icons\001-rewindRight.png" />
     <None Include="icons\001-rewind.png" />
+    <None Include="icons\002-expand-view.png" />
     <Content Include="icons\002-minimize.png" />
+    <None Include="icons\003-arrows-pointing-to-center.png" />
     <Content Include="icons\003-cancel.png" />
     <None Include="icons\004-play-button-1.png" />
     <Content Include="icons\004-stop-button.png" />

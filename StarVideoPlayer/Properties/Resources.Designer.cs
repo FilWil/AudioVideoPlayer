@@ -63,6 +63,26 @@ namespace StarVideoPlayer.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap _001_delete {
+            get {
+                object obj = ResourceManager.GetObject("001-delete", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _001_delete1 {
+            get {
+                object obj = ResourceManager.GetObject("001-delete1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap _001_maximize {
             get {
                 object obj = ResourceManager.GetObject("001-maximize", resourceCulture);
@@ -93,9 +113,29 @@ namespace StarVideoPlayer.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap _002_expand_view {
+            get {
+                object obj = ResourceManager.GetObject("002-expand-view", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap _002_minimize {
             get {
                 object obj = ResourceManager.GetObject("002-minimize", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _003_arrows_pointing_to_center {
+            get {
+                object obj = ResourceManager.GetObject("003-arrows-pointing-to-center", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
