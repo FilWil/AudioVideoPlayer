@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
 using Microsoft.DirectX.AudioVideoPlayback;
+using System.Diagnostics;
 
 namespace StarVideoPlayer
 {
@@ -26,7 +27,7 @@ namespace StarVideoPlayer
         private int selectedIndex = 0;
         private Size formSize;
         private Size pnlSize;
-
+        
         public Form1()
         {
             InitializeComponent();
@@ -36,6 +37,8 @@ namespace StarVideoPlayer
         {
             formSize = new Size(this.Width, this.Height);
             pnlSize = new Size(playerPanel.Width, playerPanel.Height);
+
+            
         }
 
         private void CloseApplication(Object sender, EventArgs e)
@@ -123,6 +126,7 @@ namespace StarVideoPlayer
                 video.Ending += Video_Ending;
                 video.Play();
             }
+
         }
         
         private void Video_Ending(object sender, EventArgs e)
@@ -221,8 +225,9 @@ namespace StarVideoPlayer
         {
             var ofd = new OpenFileDialog
             {
-                Filter = "Video files (*.avi, *.flv, *.wmv, *.divX, *.xvid, *.mpeg, *.mpg)|*.avi;*.flv;*.wmv;*.divX;*.xvid;*.mpeg;*.mpg",
-                Multiselect = true
+                Filter = "Video files (*.avi, *.flv, *.wmv, *.divX, *.xvid, *.mpeg, *.mpg)|*.avi;*.flv;*.wmv;*.divX;*.xvid;*.mpeg;*.mpg|"
+                       + "Audio files (*.mp3*)|*.mp3*",
+                Multiselect = true,
             };
 
             if (ofd.ShowDialog() == DialogResult.OK)
@@ -231,16 +236,52 @@ namespace StarVideoPlayer
                 {
                     try
                     {
-                        videoPaths.Add(file);
+                        if(ofd.FilterIndex == 1)
+                        {
+                            videoPaths.Add(file);
+                        }
+                        else
+                        {
+                            //dodaj audio
+                            Debug.WriteLine("Dodano plik audio");
+                        }
+                        
                     }
                     catch { }
                 }
             }
         }
 
+        //Funkcja, która pozwala przewijać aktualnie odtwarzany plik w czasie za pomocą suwaka
+        private void VideoProgressControl_Scroll(object sender, EventArgs e)
+        {
+            if (video.Playing)
+            {
+                videoProgressControl.Maximum = Convert.ToInt32(video.Duration); //ustawia maksymalną wartość paska na długość filmu
+                video.CurrentPosition = videoProgressControl.Value; //sterowanie czasem filmu za pomocą suwaka
+                //poniższy kod wrzucić do timera
+                fileDurationLabel.Text = Convert.ToInt32(video.Duration).ToString();
+                fileCurrentPositionLabel.Text = Convert.ToInt32(video.CurrentPosition).ToString();
+            }
+        }
+
+        //Jeśli myszka najedzie na przycisk z dźwiękiem to pojawi się suwak głośności
+        private void VolumeButton_MouseHover(object sender, EventArgs e)
+        {
+            volumeControl.Visible = true;
+        }
+
+        //Jeśli myszka opuści suwak z dźwiękiem, to zniknie
+        private void VolumeControl_MouseLeave(object sender, EventArgs e)
+        {
+            volumeControl.Visible = false;
+        }
+
         private void HeadPanel_MouseUp(object sender, MouseEventArgs e)
         {
             moveFlag = false; //jeśli oderwano myszkę od panela, to flaga ustawia się na false
-        }  
+        } 
+        
+
     }
 }

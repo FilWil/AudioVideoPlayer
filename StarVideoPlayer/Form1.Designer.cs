@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.leftPanel = new System.Windows.Forms.Panel();
+            this.logoPictureBox = new System.Windows.Forms.PictureBox();
             this.favoritesButton = new System.Windows.Forms.Button();
             this.recentlyAddedButton = new System.Windows.Forms.Button();
             this.recentlyPlayedButton = new System.Windows.Forms.Button();
@@ -36,22 +37,26 @@
             this.nowPlayingButton = new System.Windows.Forms.Button();
             this.controlsPanel = new System.Windows.Forms.Panel();
             this.volumeControl = new System.Windows.Forms.TrackBar();
+            this.volumeButton = new System.Windows.Forms.Button();
+            this.videoProgressControl = new System.Windows.Forms.TrackBar();
+            this.filesDialogButton = new System.Windows.Forms.Button();
+            this.stopButton = new System.Windows.Forms.Button();
+            this.previousTrackButton = new System.Windows.Forms.Button();
+            this.nextTrackButton = new System.Windows.Forms.Button();
+            this.playButton = new System.Windows.Forms.Button();
             this.playerPanel = new System.Windows.Forms.Panel();
             this.headPanel = new System.Windows.Forms.Panel();
             this.minimizeButton = new System.Windows.Forms.Button();
             this.maximizeButton = new System.Windows.Forms.Button();
             this.exitButton = new System.Windows.Forms.Button();
-            this.filesDialogButton = new System.Windows.Forms.Button();
-            this.stopButton = new System.Windows.Forms.Button();
-            this.rewindButton = new System.Windows.Forms.Button();
-            this.fastForwardButton = new System.Windows.Forms.Button();
-            this.playButton = new System.Windows.Forms.Button();
-            this.logoPictureBox = new System.Windows.Forms.PictureBox();
+            this.fileCurrentPositionLabel = new System.Windows.Forms.Label();
+            this.fileDurationLabel = new System.Windows.Forms.Label();
             this.leftPanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.logoPictureBox)).BeginInit();
             this.controlsPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.volumeControl)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.videoProgressControl)).BeginInit();
             this.headPanel.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.logoPictureBox)).BeginInit();
             this.SuspendLayout();
             // 
             // leftPanel
@@ -60,6 +65,7 @@
             this.leftPanel.Controls.Add(this.logoPictureBox);
             this.leftPanel.Controls.Add(this.favoritesButton);
             this.leftPanel.Controls.Add(this.recentlyAddedButton);
+            this.leftPanel.Controls.Add(this.filesDialogButton);
             this.leftPanel.Controls.Add(this.recentlyPlayedButton);
             this.leftPanel.Controls.Add(this.recentlyViewedButton);
             this.leftPanel.Controls.Add(this.nowPlayingButton);
@@ -68,6 +74,15 @@
             this.leftPanel.Name = "leftPanel";
             this.leftPanel.Size = new System.Drawing.Size(189, 729);
             this.leftPanel.TabIndex = 0;
+            // 
+            // logoPictureBox
+            // 
+            this.logoPictureBox.BackgroundImage = global::StarVideoPlayer.Properties.Resources.video_player__1_;
+            this.logoPictureBox.Location = new System.Drawing.Point(53, 12);
+            this.logoPictureBox.Name = "logoPictureBox";
+            this.logoPictureBox.Size = new System.Drawing.Size(64, 64);
+            this.logoPictureBox.TabIndex = 5;
+            this.logoPictureBox.TabStop = false;
             // 
             // favoritesButton
             // 
@@ -142,11 +157,14 @@
             // controlsPanel
             // 
             this.controlsPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(42)))), ((int)(((byte)(42)))));
-            this.controlsPanel.Controls.Add(this.filesDialogButton);
+            this.controlsPanel.Controls.Add(this.fileDurationLabel);
+            this.controlsPanel.Controls.Add(this.fileCurrentPositionLabel);
             this.controlsPanel.Controls.Add(this.volumeControl);
+            this.controlsPanel.Controls.Add(this.volumeButton);
+            this.controlsPanel.Controls.Add(this.videoProgressControl);
             this.controlsPanel.Controls.Add(this.stopButton);
-            this.controlsPanel.Controls.Add(this.rewindButton);
-            this.controlsPanel.Controls.Add(this.fastForwardButton);
+            this.controlsPanel.Controls.Add(this.previousTrackButton);
+            this.controlsPanel.Controls.Add(this.nextTrackButton);
             this.controlsPanel.Controls.Add(this.playButton);
             this.controlsPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.controlsPanel.Location = new System.Drawing.Point(189, 650);
@@ -158,15 +176,128 @@
             // 
             this.volumeControl.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.volumeControl.LargeChange = 1000;
-            this.volumeControl.Location = new System.Drawing.Point(636, 22);
+            this.volumeControl.Location = new System.Drawing.Point(706, 22);
             this.volumeControl.Maximum = 0;
             this.volumeControl.Minimum = -3000;
             this.volumeControl.Name = "volumeControl";
-            this.volumeControl.Size = new System.Drawing.Size(137, 45);
+            this.volumeControl.Size = new System.Drawing.Size(99, 45);
             this.volumeControl.SmallChange = 500;
             this.volumeControl.TabIndex = 6;
             this.volumeControl.Value = -1500;
+            this.volumeControl.Visible = false;
             this.volumeControl.Scroll += new System.EventHandler(this.VolumeControl_Scroll);
+            this.volumeControl.MouseLeave += new System.EventHandler(this.VolumeControl_MouseLeave);
+            // 
+            // volumeButton
+            // 
+            this.volumeButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.volumeButton.BackgroundImage = global::StarVideoPlayer.Properties.Resources.speaker;
+            this.volumeButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.volumeButton.FlatAppearance.BorderSize = 0;
+            this.volumeButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.volumeButton.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.volumeButton.ImageAlign = System.Drawing.ContentAlignment.BottomRight;
+            this.volumeButton.Location = new System.Drawing.Point(643, 22);
+            this.volumeButton.Name = "volumeButton";
+            this.volumeButton.Size = new System.Drawing.Size(46, 45);
+            this.volumeButton.TabIndex = 9;
+            this.volumeButton.Text = "\r\n";
+            this.volumeButton.UseVisualStyleBackColor = true;
+            this.volumeButton.MouseHover += new System.EventHandler(this.VolumeButton_MouseHover);
+            // 
+            // videoProgressControl
+            // 
+            this.videoProgressControl.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.videoProgressControl.Location = new System.Drawing.Point(66, 22);
+            this.videoProgressControl.Name = "videoProgressControl";
+            this.videoProgressControl.Size = new System.Drawing.Size(273, 45);
+            this.videoProgressControl.TabIndex = 8;
+            this.videoProgressControl.Scroll += new System.EventHandler(this.VideoProgressControl_Scroll);
+            // 
+            // filesDialogButton
+            // 
+            this.filesDialogButton.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.filesDialogButton.BackgroundImage = global::StarVideoPlayer.Properties.Resources.folder;
+            this.filesDialogButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.filesDialogButton.FlatAppearance.BorderSize = 0;
+            this.filesDialogButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.filesDialogButton.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.filesDialogButton.ImageAlign = System.Drawing.ContentAlignment.BottomRight;
+            this.filesDialogButton.Location = new System.Drawing.Point(53, 659);
+            this.filesDialogButton.Name = "filesDialogButton";
+            this.filesDialogButton.Size = new System.Drawing.Size(46, 45);
+            this.filesDialogButton.TabIndex = 7;
+            this.filesDialogButton.Text = "\r\n";
+            this.filesDialogButton.UseVisualStyleBackColor = true;
+            this.filesDialogButton.Click += new System.EventHandler(this.FilesDialogButton_Click);
+            // 
+            // stopButton
+            // 
+            this.stopButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.stopButton.BackgroundImage = global::StarVideoPlayer.Properties.Resources._003_stop_21;
+            this.stopButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.stopButton.FlatAppearance.BorderSize = 0;
+            this.stopButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.stopButton.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.stopButton.ImageAlign = System.Drawing.ContentAlignment.BottomRight;
+            this.stopButton.Location = new System.Drawing.Point(435, 22);
+            this.stopButton.Name = "stopButton";
+            this.stopButton.Size = new System.Drawing.Size(46, 45);
+            this.stopButton.TabIndex = 5;
+            this.stopButton.Text = "\r\n";
+            this.stopButton.UseVisualStyleBackColor = true;
+            this.stopButton.Click += new System.EventHandler(this.StopButton_Click);
+            // 
+            // previousTrackButton
+            // 
+            this.previousTrackButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.previousTrackButton.BackgroundImage = global::StarVideoPlayer.Properties.Resources._002_previous;
+            this.previousTrackButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.previousTrackButton.FlatAppearance.BorderSize = 0;
+            this.previousTrackButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.previousTrackButton.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.previousTrackButton.ImageAlign = System.Drawing.ContentAlignment.BottomRight;
+            this.previousTrackButton.Location = new System.Drawing.Point(487, 22);
+            this.previousTrackButton.Name = "previousTrackButton";
+            this.previousTrackButton.Size = new System.Drawing.Size(46, 45);
+            this.previousTrackButton.TabIndex = 4;
+            this.previousTrackButton.Text = "\r\n";
+            this.previousTrackButton.UseVisualStyleBackColor = true;
+            this.previousTrackButton.Click += new System.EventHandler(this.RewindButton_Click);
+            // 
+            // nextTrackButton
+            // 
+            this.nextTrackButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.nextTrackButton.BackgroundImage = global::StarVideoPlayer.Properties.Resources._001_skip;
+            this.nextTrackButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.nextTrackButton.FlatAppearance.BorderSize = 0;
+            this.nextTrackButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.nextTrackButton.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.nextTrackButton.ImageAlign = System.Drawing.ContentAlignment.BottomRight;
+            this.nextTrackButton.Location = new System.Drawing.Point(591, 22);
+            this.nextTrackButton.Name = "nextTrackButton";
+            this.nextTrackButton.Size = new System.Drawing.Size(46, 45);
+            this.nextTrackButton.TabIndex = 3;
+            this.nextTrackButton.Text = "\r\n";
+            this.nextTrackButton.UseVisualStyleBackColor = true;
+            this.nextTrackButton.Click += new System.EventHandler(this.FastForwardButton_Click);
+            // 
+            // playButton
+            // 
+            this.playButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.playButton.BackgroundImage = global::StarVideoPlayer.Properties.Resources._004_play_button_1;
+            this.playButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.playButton.FlatAppearance.BorderSize = 0;
+            this.playButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.playButton.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.playButton.ImageAlign = System.Drawing.ContentAlignment.BottomRight;
+            this.playButton.Location = new System.Drawing.Point(539, 22);
+            this.playButton.Name = "playButton";
+            this.playButton.Size = new System.Drawing.Size(46, 45);
+            this.playButton.TabIndex = 2;
+            this.playButton.Text = "\r\n";
+            this.playButton.UseVisualStyleBackColor = true;
+            this.playButton.Click += new System.EventHandler(this.PlayButton_Click);
             // 
             // playerPanel
             // 
@@ -250,99 +381,23 @@
             this.exitButton.UseVisualStyleBackColor = true;
             this.exitButton.Click += new System.EventHandler(this.ExitButton_Click);
             // 
-            // filesDialogButton
+            // fileCurrentPositionLabel
             // 
-            this.filesDialogButton.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.filesDialogButton.BackgroundImage = global::StarVideoPlayer.Properties.Resources.folder;
-            this.filesDialogButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.filesDialogButton.FlatAppearance.BorderSize = 0;
-            this.filesDialogButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.filesDialogButton.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.filesDialogButton.ImageAlign = System.Drawing.ContentAlignment.BottomRight;
-            this.filesDialogButton.Location = new System.Drawing.Point(28, 22);
-            this.filesDialogButton.Name = "filesDialogButton";
-            this.filesDialogButton.Size = new System.Drawing.Size(46, 45);
-            this.filesDialogButton.TabIndex = 7;
-            this.filesDialogButton.Text = "\r\n";
-            this.filesDialogButton.UseVisualStyleBackColor = true;
-            this.filesDialogButton.Click += new System.EventHandler(this.FilesDialogButton_Click);
+            this.fileCurrentPositionLabel.AutoSize = true;
+            this.fileCurrentPositionLabel.Location = new System.Drawing.Point(6, 38);
+            this.fileCurrentPositionLabel.Name = "fileCurrentPositionLabel";
+            this.fileCurrentPositionLabel.Size = new System.Drawing.Size(28, 13);
+            this.fileCurrentPositionLabel.TabIndex = 10;
+            this.fileCurrentPositionLabel.Text = "0:00";
             // 
-            // stopButton
+            // fileDurationLabel
             // 
-            this.stopButton.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.stopButton.BackgroundImage = global::StarVideoPlayer.Properties.Resources._003_stop_21;
-            this.stopButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.stopButton.FlatAppearance.BorderSize = 0;
-            this.stopButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.stopButton.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.stopButton.ImageAlign = System.Drawing.ContentAlignment.BottomRight;
-            this.stopButton.Location = new System.Drawing.Point(257, 22);
-            this.stopButton.Name = "stopButton";
-            this.stopButton.Size = new System.Drawing.Size(46, 45);
-            this.stopButton.TabIndex = 5;
-            this.stopButton.Text = "\r\n";
-            this.stopButton.UseVisualStyleBackColor = true;
-            this.stopButton.Click += new System.EventHandler(this.StopButton_Click);
-            // 
-            // rewindButton
-            // 
-            this.rewindButton.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.rewindButton.BackgroundImage = global::StarVideoPlayer.Properties.Resources._001_rewind;
-            this.rewindButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.rewindButton.FlatAppearance.BorderSize = 0;
-            this.rewindButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.rewindButton.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.rewindButton.ImageAlign = System.Drawing.ContentAlignment.BottomRight;
-            this.rewindButton.Location = new System.Drawing.Point(321, 22);
-            this.rewindButton.Name = "rewindButton";
-            this.rewindButton.Size = new System.Drawing.Size(46, 45);
-            this.rewindButton.TabIndex = 4;
-            this.rewindButton.Text = "\r\n";
-            this.rewindButton.UseVisualStyleBackColor = true;
-            this.rewindButton.Click += new System.EventHandler(this.RewindButton_Click);
-            // 
-            // fastForwardButton
-            // 
-            this.fastForwardButton.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.fastForwardButton.BackgroundImage = global::StarVideoPlayer.Properties.Resources._001_rewindRight;
-            this.fastForwardButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.fastForwardButton.FlatAppearance.BorderSize = 0;
-            this.fastForwardButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.fastForwardButton.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.fastForwardButton.ImageAlign = System.Drawing.ContentAlignment.BottomRight;
-            this.fastForwardButton.Location = new System.Drawing.Point(454, 22);
-            this.fastForwardButton.Name = "fastForwardButton";
-            this.fastForwardButton.Size = new System.Drawing.Size(46, 45);
-            this.fastForwardButton.TabIndex = 3;
-            this.fastForwardButton.Text = "\r\n";
-            this.fastForwardButton.UseVisualStyleBackColor = true;
-            this.fastForwardButton.Click += new System.EventHandler(this.FastForwardButton_Click);
-            // 
-            // playButton
-            // 
-            this.playButton.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.playButton.BackgroundImage = global::StarVideoPlayer.Properties.Resources._004_play_button_1;
-            this.playButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.playButton.FlatAppearance.BorderSize = 0;
-            this.playButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.playButton.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.playButton.ImageAlign = System.Drawing.ContentAlignment.BottomRight;
-            this.playButton.Location = new System.Drawing.Point(386, 22);
-            this.playButton.Name = "playButton";
-            this.playButton.Size = new System.Drawing.Size(46, 45);
-            this.playButton.TabIndex = 2;
-            this.playButton.Text = "\r\n";
-            this.playButton.UseVisualStyleBackColor = true;
-            this.playButton.Click += new System.EventHandler(this.PlayButton_Click);
-            // 
-            // logoPictureBox
-            // 
-            this.logoPictureBox.BackgroundImage = global::StarVideoPlayer.Properties.Resources.video_player__1_;
-            this.logoPictureBox.Location = new System.Drawing.Point(53, 12);
-            this.logoPictureBox.Name = "logoPictureBox";
-            this.logoPictureBox.Size = new System.Drawing.Size(64, 64);
-            this.logoPictureBox.TabIndex = 5;
-            this.logoPictureBox.TabStop = false;
+            this.fileDurationLabel.AutoSize = true;
+            this.fileDurationLabel.Location = new System.Drawing.Point(361, 38);
+            this.fileDurationLabel.Name = "fileDurationLabel";
+            this.fileDurationLabel.Size = new System.Drawing.Size(28, 13);
+            this.fileDurationLabel.TabIndex = 11;
+            this.fileDurationLabel.Text = "2:00";
             // 
             // Form1
             // 
@@ -358,11 +413,12 @@
             this.Text = "Form1";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.leftPanel.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.logoPictureBox)).EndInit();
             this.controlsPanel.ResumeLayout(false);
             this.controlsPanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.volumeControl)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.videoProgressControl)).EndInit();
             this.headPanel.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.logoPictureBox)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -378,8 +434,8 @@
         private System.Windows.Forms.Button maximizeButton;
         private System.Windows.Forms.Button playButton;
         private System.Windows.Forms.Button stopButton;
-        private System.Windows.Forms.Button rewindButton;
-        private System.Windows.Forms.Button fastForwardButton;
+        private System.Windows.Forms.Button previousTrackButton;
+        private System.Windows.Forms.Button nextTrackButton;
         private System.Windows.Forms.Button favoritesButton;
         private System.Windows.Forms.Button recentlyAddedButton;
         private System.Windows.Forms.Button recentlyPlayedButton;
@@ -388,6 +444,10 @@
         private System.Windows.Forms.PictureBox logoPictureBox;
         private System.Windows.Forms.TrackBar volumeControl;
         private System.Windows.Forms.Button filesDialogButton;
+        private System.Windows.Forms.TrackBar videoProgressControl;
+        private System.Windows.Forms.Button volumeButton;
+        private System.Windows.Forms.Label fileDurationLabel;
+        private System.Windows.Forms.Label fileCurrentPositionLabel;
     }
 }
 
