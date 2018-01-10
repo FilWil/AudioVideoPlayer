@@ -403,7 +403,6 @@
             // 
             // timer
             // 
-            this.timer.Enabled = true;
             this.timer.Tick += new System.EventHandler(this.Timer1_Tick);
             // 
             // Form1
