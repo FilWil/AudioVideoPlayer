@@ -23,20 +23,17 @@ namespace StarVideoPlayer
         private Video video;                                        //prywatna zmienna pobierająca aktualnie wybrane video
         private Audio audio;                                        //prywatna zmienna pobierająca aktualnie wybrane audio
 
-        //private List<Tuple<Video, Audio>> filesPaths = new List<Tuple<Video, Audio>>();
-        private Object multimediaFile;
-        private List<Object> filesPaths = new List<Object>();
+        private List<Tuple<Video, Audio>> filesPaths = new List<Tuple<Video, Audio>>();
 
-        //private string[] audioPaths;
+        //private Object multimediaFile;
+        //private List<Object> filesPaths = new List<Object>();
+
         private int selectedIndex = 0;
         private int previousIndex = 0;
         private Size formSize;
         private Size pnlSize;
         
-        public Form1()
-        {
-            InitializeComponent();
-        }
+        public Form1() { InitializeComponent(); }
 
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -44,36 +41,41 @@ namespace StarVideoPlayer
             pnlSize = new Size(playerPanel.Width, playerPanel.Height);
         }
 
-        private void CloseApplication(Object sender, EventArgs e)
-        {
-            Application.Exit();
-        }
-
-        private void Minimize(Object sender, EventArgs e)
-        {
-            WindowState = FormWindowState.Minimized;
-        }
-
+        //PRZYCISK ZAMYKANIA - CLOSE APPLICATION
         private void ExitButton_Click(object sender, EventArgs e)
         {
             CloseApplication(sender, e);
         }
 
+        //ZAMYKANIE APLIKACJI
+        private void CloseApplication(Object sender, EventArgs e) { Application.Exit(); }
+
+
+        //PRZYCISK MINIMALIZACJI
         private void MinimizeButton_Click(object sender, EventArgs e)
         {
             Minimize(sender, e);
         }
 
+        //MINIMALIZOWANIE OKNA
+        private void Minimize(Object sender, EventArgs e) {
+            WindowState = FormWindowState.Minimized;
+        }
+
+
+        //PRZYCISK NASTĘPNEGO ITEMU
         private void FastForwardButton_Click(object sender, EventArgs e)
         {
             NextItem();
         }
 
+        //PRZYCISK POPRZEDNIEGO ITEMU
         private void RewindButton_Click(object sender, EventArgs e)
         {
             PreviousVideo();
         }
 
+        //REAKCJA NA PRZYCISK NASTĘPNEGO ITEMU
         private void NextItem()
         {
             int index = selectedIndex;
@@ -82,7 +84,7 @@ namespace StarVideoPlayer
             if (index > filesPaths.Count - 1) index = 0;
             selectedIndex = index;
 
-            Player(filesPaths[index]);
+            Player(filesPaths[index], filesPaths[previousIndex]);
 
             if (panelMaximized)
             {
@@ -94,6 +96,7 @@ namespace StarVideoPlayer
             }
         }
 
+        //REAKCJA NA PRZYCISK POPRZEDNIEGO ITEMU
         private void PreviousVideo()
         {
             int index = selectedIndex;
@@ -102,7 +105,7 @@ namespace StarVideoPlayer
             if (index == -1) index = filesPaths.Count - 1;
             selectedIndex = index;
 
-            Player(filesPaths[index]);
+            Player(filesPaths[index], filesPaths[previousIndex]);
 
             if (panelMaximized)
             {
@@ -115,43 +118,94 @@ namespace StarVideoPlayer
         }
 
         //TO DO!!!!!
-        private void Player(Object itemType)
+            //Akutalnie uruchamia z Tuple'a
+            //Zmiana itemu działa za pomocą przycisków next/previous (do pewnego momentu - sprawdzić why)
+            //Dorobić resztę
+            //multiFile - plik, który chcemy uruchomić
+            //multiFilePrevious - plik, który gramy aktualnie
+            //Zamiana multiFile na odpowiedni video lub audio
+
+        private void Player(Tuple<Video, Audio> multiFile, Tuple<Video, Audio> multiFilePrevious)
         {
-           // if(filesPaths != null)
-           // {
-           //     //if ()
-           //     //{
-           //     //    video.Stop();
-           //     //    video.Dispose();
-           //     //}
-           //     foreach (var item in filesPaths)
-           //     {
-           //         if(item.GetType().Equals(Video))
-           //         {
+            if(filesPaths != null)
+            {
+                if(multiFilePrevious.Item1 != null)
+                {
+                    if (multiFilePrevious.Item1.Playing)
+                    {
+                        multiFilePrevious.Item1.Stop();
+                        multiFilePrevious.Item1.Dispose();
+                    }
+                }
+                if(multiFilePrevious.Item2 != null)
+                {
+                    if (multiFilePrevious.Item2.Playing)
+                    {
+                        multiFilePrevious.Item2.Stop();
+                        multiFilePrevious.Item2.Dispose();
+                    }
+                }
+            }
+            // if(filesPaths != null)
+            // {
+            //     //if ()
+            //     //{
+            //     //    video.Stop();
+            //     //    video.Dispose();
+            //     //}
+            //     foreach (var item in filesPaths)
+            //     {
+            //         if(item.GetType().Equals(Video))
+            //         {
 
-           //         }
-           //     }
-           // }
+            //         }
+            //     }
+            // }
 
-           //switch (itemType){
-           //     case "audio":
-           //         audio = new Audio(filesPaths[selectedIndex].Item1, false);
-           //         audio.Ending += Ending_Actions;
-           //         audio.Play();
-           //         Debug.WriteLine("O) KUROW");
-           //         break;
-           //     case "video":
-           //         video = new Video(filesPaths[selectedIndex].Item1, false)
-           //         {
-           //             Owner = playerPanel
-           //         };
-           //         playerPanel.Size = pnlSize;
-           //         video.Ending += Ending_Actions;
-           //         video.Play();
-           //         break;
-           //     default:
-           //         break;
-           // }
+            if(multiFile.Item1 != null)
+            {
+                video = multiFile.Item1;
+                video.Owner = playerPanel;
+                playerPanel.Size = pnlSize;
+                video.Ending += Ending_Actions;
+                video.Play();
+
+                //multiFile.Item1.Owner = playerPanel;
+                //playerPanel.Size = pnlSize;
+                //multiFile.Item1.Ending += Ending_Actions;
+                //multiFile.Item1.Play();
+            }
+            else if(multiFile.Item2 != null)
+            {
+                audio = multiFile.Item2;
+                audio.Ending += Ending_Actions;
+                audio.Play();
+
+                //multiFile.Item2.Ending += Ending_Actions;
+                //multiFile.Item2.Play();
+                //Debug.WriteLine("Rozpoczynamy audio");
+            }
+
+            //switch (multiFile)
+            //{
+            //    case "audio":
+            //        audio = new Audio(filesPaths[selectedIndex].Item1, false);
+            //        audio.Ending += Ending_Actions;
+            //        audio.Play();
+            //        Debug.WriteLine("O) KUROW");
+            //        break;
+            //    case "video":
+            //        video = new Video(filesPaths[selectedIndex].Item1, false)
+            //        {
+            //            Owner = playerPanel
+            //        };
+            //        playerPanel.Size = pnlSize;
+            //        video.Ending += Ending_Actions;
+            //        video.Play();
+            //        break;
+            //    default:
+            //        break;
+            //}
         }
 
         /// <summary>
@@ -173,6 +227,8 @@ namespace StarVideoPlayer
         //    }
         //}
         
+
+        //PO ZAKOŃCZENIU ODTWARZANIA
         private void Ending_Actions(object sender, EventArgs e)
         {
             Task.Factory.StartNew(() =>
@@ -189,10 +245,111 @@ namespace StarVideoPlayer
             });
         }
 
+        //PRZYCISK PLAY URUCHAMIA PLAYERA POBIERAJĄC PIERWSZY ITEM Z LISTY
         private void PlayButton_Click(object sender, EventArgs e)
         {
-            //Player(filesPaths[selectedIndex].Item2);
+            Player(filesPaths[selectedIndex], filesPaths[previousIndex]);
         }
+
+        private void FilesDialogButton_Click(object sender, EventArgs e)
+        {
+            var ofd = new OpenFileDialog
+            {
+                Filter = "Video files (*.avi, *.flv, *.wmv, *.divX, *.xvid, *.mpeg, *.mpg)|*.avi;*.flv;*.wmv;*.divX;*.xvid;*.mpeg;*.mpg|Audio files (*.wav)|*.wav",
+                Multiselect = true,
+            };
+
+            if (ofd.ShowDialog() == DialogResult.OK)
+            {
+                foreach (string file in ofd.FileNames)
+                {
+                    try
+                    {
+                        if (ofd.FilterIndex == 1) //dla plików video
+                        {
+                            Video multimediaFile = new Video(file, false);
+                            filesPaths.Add(new Tuple<Video, Audio>(multimediaFile, null));
+                        }
+                        else //dla plików audio
+                        {
+                            Audio multimediaFile = new Audio(file, false);
+                            filesPaths.Add(new Tuple<Video, Audio>(null, multimediaFile));
+                        }
+                    }
+                    catch { }
+                    finally
+                    {
+                        foreach (var item in filesPaths)
+                        {
+                            Debug.WriteLine(item.GetType());
+                        }
+                    }
+                }
+            }
+        }
+
+        //Przycisk stop - pauza i kontynuowanie filmu po porzednim zatrzymaniu
+        private void StopButton_Click(object sender, EventArgs e)
+        {
+            if (!video.Playing)
+            {
+                video.Play();
+            }
+            else if (video.Playing)
+            {
+                video.Pause();
+            }
+        }
+
+        private void VolumeControl_Scroll(object sender, EventArgs e)
+        {
+            if (video.Playing) video.Audio.Volume = volumeControl.Value; //Audio.Volume jest z zakresu (-10000, 0), gdzie 0 to maksymalna głośność - im mniejsza wartość tym bardziej jest wyciszone
+        }
+
+        private string checkWhichIsPlaying()
+        {
+            if (video.Playing) return "video";
+            else if (audio.Playing) return "audio";
+            else return "";
+        }
+
+        //Funkcja, która pozwala przewijać aktualnie odtwarzany plik w czasie za pomocą suwaka
+        private void VideoProgressControl_Scroll(object sender, EventArgs e)
+        {
+            if (checkWhichIsPlaying() == "video")
+            {
+                videoProgressControl.Maximum = Convert.ToInt32(video.Duration); //ustawia maksymalną wartość paska na długość filmu
+                video.CurrentPosition = videoProgressControl.Value; //sterowanie czasem filmu za pomocą suwaka
+            }
+            else if (checkWhichIsPlaying() == "audio")
+            {
+                videoProgressControl.Maximum = Convert.ToInt32(audio.Duration); //ustawia maksymalną wartość paska na długość filmu
+                audio.CurrentPosition = videoProgressControl.Value; //sterowanie czasem filmu za pomocą suwaka
+            }
+        }
+
+        private void Timer1_Tick(object sender, EventArgs e)
+        {
+            if (checkWhichIsPlaying() == "video")
+            {
+                if (!timer.Enabled) timer.Enabled = true;
+                fileDurationLabel.Text = Convert.ToInt32(video.Duration).ToString(); //pokazuje obecny czas, w którym znajduje się film na labelu
+                fileCurrentPositionLabel.Text = Convert.ToInt32(video.CurrentPosition).ToString(); //pokazuje długość trwania filmu w labelu
+            }
+            else if (checkWhichIsPlaying() == "audio")
+            {
+                if (!timer.Enabled) timer.Enabled = true;
+                fileDurationLabel.Text = Convert.ToInt32(audio.Duration).ToString(); //pokazuje obecny czas, w którym znajduje się film na labelu
+                fileCurrentPositionLabel.Text = Convert.ToInt32(audio.CurrentPosition).ToString(); //pokazuje długość trwania filmu w labelu
+            }
+        }
+
+
+        /// <summary>
+        /// RESZTA PONIŻEJ (COŚ, CO NIE WYMAGA PLAYERA ANI INTERACKJI Z NIM)
+        /// </summary>
+
+
 
         private void HeadPanel_MouseDown(object sender, MouseEventArgs e)
         {
@@ -247,83 +404,6 @@ namespace StarVideoPlayer
             }
         }
 
-        //Przycisk stop - pauza i kontynuowanie filmu po porzednim zatrzymaniu
-        private void StopButton_Click(object sender, EventArgs e)
-        {
-            if (!video.Playing)
-            {
-                video.Play();
-            }
-            else if (video.Playing)
-            {
-                video.Pause();
-            }
-        }
-
-        private void VolumeControl_Scroll(object sender, EventArgs e)
-        {
-            if (video.Playing) video.Audio.Volume = volumeControl.Value; //Audio.Volume jest z zakresu (-10000, 0), gdzie 0 to maksymalna głośność - im mniejsza wartość tym bardziej jest wyciszone
-        }
-
-        private void FilesDialogButton_Click(object sender, EventArgs e)
-        {
-            var ofd = new OpenFileDialog
-            {
-                Filter = "Video files (*.avi, *.flv, *.wmv, *.divX, *.xvid, *.mpeg, *.mpg)|*.avi;*.flv;*.wmv;*.divX;*.xvid;*.mpeg;*.mpg|"
-                       + "Audio files (*.wav)|*.wav",
-                Multiselect = true,
-            };
-
-            if (ofd.ShowDialog() == DialogResult.OK)
-            {
-                foreach (string file in ofd.FileNames)
-                {
-                    try
-                    {
-                        if(ofd.FilterIndex == 1) //dla plików video
-                        {
-                            multimediaFile = new Video(file, false);
-                            filesPaths.Add(multimediaFile);
-                        }
-                        else //dla plików audio
-                        {
-                            multimediaFile = new Audio(file, false);
-                            filesPaths.Add(multimediaFile);
-                        }   
-                    }
-                    catch { }
-                    finally
-                    {
-                        foreach (var item in filesPaths)
-                        {
-                            Debug.WriteLine(item.GetType());
-                        }
-                    }
-                }
-            }
-        }
-
-        private string checkWhichIsPlaying()
-        {
-            if (video.Playing) return "video";
-            else if (audio.Playing) return "audio";
-            else return "";
-        }
-
-        //Funkcja, która pozwala przewijać aktualnie odtwarzany plik w czasie za pomocą suwaka
-        private void VideoProgressControl_Scroll(object sender, EventArgs e)
-        {
-            if (checkWhichIsPlaying() == "video")
-            {
-                videoProgressControl.Maximum = Convert.ToInt32(video.Duration); //ustawia maksymalną wartość paska na długość filmu
-                video.CurrentPosition = videoProgressControl.Value; //sterowanie czasem filmu za pomocą suwaka
-            } else if (checkWhichIsPlaying() == "audio")
-            {
-                videoProgressControl.Maximum = Convert.ToInt32(audio.Duration); //ustawia maksymalną wartość paska na długość filmu
-                audio.CurrentPosition = videoProgressControl.Value; //sterowanie czasem filmu za pomocą suwaka
-            }
-        }
-
         //Jeśli myszka najedzie na przycisk z dźwiękiem to pojawi się suwak głośności
         private void VolumeButton_MouseHover(object sender, EventArgs e)
         {
@@ -334,22 +414,6 @@ namespace StarVideoPlayer
         private void VolumeControl_MouseLeave(object sender, EventArgs e)
         {
             volumeControl.Visible = false;
-        }
-
-        private void Timer1_Tick(object sender, EventArgs e)
-        {
-            if (checkWhichIsPlaying() == "video")
-            {
-                if(!timer.Enabled) timer.Enabled = true;
-                fileDurationLabel.Text = Convert.ToInt32(video.Duration).ToString(); //pokazuje obecny czas, w którym znajduje się film na labelu
-                fileCurrentPositionLabel.Text = Convert.ToInt32(video.CurrentPosition).ToString(); //pokazuje długość trwania filmu w labelu
-            }
-            else if (checkWhichIsPlaying() == "audio")
-            {
-                if (!timer.Enabled) timer.Enabled = true;
-                fileDurationLabel.Text = Convert.ToInt32(audio.Duration).ToString(); //pokazuje obecny czas, w którym znajduje się film na labelu
-                fileCurrentPositionLabel.Text = Convert.ToInt32(audio.CurrentPosition).ToString(); //pokazuje długość trwania filmu w labelu
-            }
         }
 
         private void HeadPanel_MouseUp(object sender, MouseEventArgs e)
