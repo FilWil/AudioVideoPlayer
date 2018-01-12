@@ -123,6 +123,7 @@
     <None Include="icons\003-arrows-pointing-to-center.png" />
     <None Include="icons\002-next.png" />
     <None Include="icons\002-previous.png" />
+    <None Include="icons\002-pause.png" />
     <Content Include="icons\003-cancel.png" />
     <None Include="icons\004-play-button-1.png" />
     <Content Include="icons\004-stop-button.png" />
