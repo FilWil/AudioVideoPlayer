@@ -18,6 +18,8 @@ namespace StarVideoPlayer
         /*
          TODO:
          mozna ewentualnie dodac funkcjonalnosci do przyciskow z lewej jakies proste
+         tylko formaty dobrac dzialajace
+         okładki z metadanych - sprawdzić jak to zrobić [https://www.youtube.com/watch?v=C305CxPCBKY]
         */
 
         //ZMIENNE GLOBALNE
@@ -34,7 +36,7 @@ namespace StarVideoPlayer
         //private List<Object> filesPaths = new List<Object>();
 
         private int selectedIndex = 0;
-        
+
         public Form1() { InitializeComponent(); }
 
         private void Form1_Load(object sender, EventArgs e) { }
@@ -102,7 +104,7 @@ namespace StarVideoPlayer
                 selectedIndex--;
                 Player(mediaFile[selectedIndex]);
             }
-            
+
             if (panelMaximized)
             {
                 playerPanel.Size = new Size(Width, Height);
@@ -143,7 +145,7 @@ namespace StarVideoPlayer
 
         private void StopPlaying(Object fileProvided)
         {
-            if(fileProvided.GetType() == typeof(Video))
+            if (fileProvided.GetType() == typeof(Video))
             {
                 if (!video.Playing)
                 {
@@ -154,7 +156,7 @@ namespace StarVideoPlayer
                     video.Pause();
                 }
             }
-            else if(fileProvided.GetType() == typeof(Audio))
+            else if (fileProvided.GetType() == typeof(Audio))
             {
                 if (!audio.Playing)
                 {
@@ -212,7 +214,7 @@ namespace StarVideoPlayer
 
         private void PlayButton_Click(object sender, EventArgs e)
         {
-            if(mediaFile.Count != 0) Player(mediaFile[selectedIndex]);
+            if (mediaFile.Count != 0) Player(mediaFile[selectedIndex]);
         }
 
         private void FilesDialogButton_Click(object sender, EventArgs e)
@@ -250,7 +252,7 @@ namespace StarVideoPlayer
         //Przycisk stop - pauza i kontynuowanie filmu po porzednim zatrzymaniu
         private void StopButton_Click(object sender, EventArgs e)
         {
-           if(mediaFile.Count != 0) StopPlaying(mediaFile[selectedIndex]);
+            if (mediaFile.Count != 0) StopPlaying(mediaFile[selectedIndex]);
         }
 
         private void VolumeControl_Scroll(object sender, EventArgs e)
