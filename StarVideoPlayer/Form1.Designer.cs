@@ -404,7 +404,7 @@
             // timer
             // 
             this.timer.Enabled = true;
-            this.timer.Tick += new System.EventHandler(this.Timer1_Tick);
+            this.timer.Interval = 1000;
             // 
             // Form1
             // 

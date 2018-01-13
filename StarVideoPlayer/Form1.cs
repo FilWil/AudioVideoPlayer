@@ -17,8 +17,6 @@ namespace StarVideoPlayer
     {
         /*
          TODO:
-         tylko timer ogarnac 
-         paski dzwieku i pozycji zeby kursor podążał za wartością
          mozna ewentualnie dodac funkcjonalnosci do przyciskow z lewej jakies proste
         */
 
@@ -30,23 +28,16 @@ namespace StarVideoPlayer
         private Video video;                                        //prywatna zmienna pobierająca aktualnie wybrane video
         private Audio audio;                                        //prywatna zmienna pobierająca aktualnie wybrane audio
 
-        //private List<Tuple<Video, Audio>> filesPaths = new List<Tuple<Video, Audio>>();
         private List<Object> mediaFile = new List<Object>();
+        //private List<Tuple<Video, Audio>> filesPaths = new List<Tuple<Video, Audio>>();
         //private Object multimediaFile;
         //private List<Object> filesPaths = new List<Object>();
 
         private int selectedIndex = 0;
-       //CO TO W OGOLE JEST PREVIOUS INDEX XDDDDDDD i na co to komu
-        private Size formSize;
-        private Size pnlSize;
         
         public Form1() { InitializeComponent(); }
 
-        private void Form1_Load(object sender, EventArgs e)
-        {
-            formSize = new Size(this.Width, this.Height);
-            pnlSize = new Size(playerPanel.Width, playerPanel.Height);
-        }
+        private void Form1_Load(object sender, EventArgs e) { }
 
         //PRZYCISK ZAMYKANIA - CLOSE APPLICATION
         private void ExitButton_Click(object sender, EventArgs e)
@@ -149,6 +140,7 @@ namespace StarVideoPlayer
             }
             catch { }
         }
+
         private void StopPlaying(Object fileProvided)
         {
             if(fileProvided.GetType() == typeof(Video))
@@ -177,25 +169,30 @@ namespace StarVideoPlayer
 
         private void Player(Object fileProvided)
         {
-                if (mediaFile != null)
+            if (mediaFile != null)
+            {
+                videoProgressControl.Value = 0;
+                if (fileProvided.GetType() == typeof(Video))
                 {
-                    if (fileProvided.GetType() == typeof(Video))
-                    {
-                        video = (Video)fileProvided;
-                        video.Owner = playerPanel;
-                        playerPanel.Size = pnlSize;
-                        video.Ending += Ending_Actions;
-                        video.Play();
-                    }
-                    else if (fileProvided.GetType() == typeof(Audio))
-                    {
-                        audio = (Audio)fileProvided;
-                        audio.Ending += Ending_Actions;
-                        audio.Play();
-                    }
+                    video = (Video)fileProvided;
+                    video.Owner = playerPanel;
+                    playerPanel.Size = new Size(playerPanel.Width, playerPanel.Height);
+                    video.Ending += Ending_Actions;
+                    ControlFileProgress(fileProvided);
+                    video.Play();
+                    timer.Tick += new EventHandler(Timer1_Tick);
                 }
-
+                else if (fileProvided.GetType() == typeof(Audio))
+                {
+                    audio = (Audio)fileProvided;
+                    audio.Ending += Ending_Actions;
+                    ControlFileProgress(fileProvided);
+                    audio.Play();
+                    timer.Tick += new EventHandler(Timer1_Tick);
+                }
+            }
         }
+
         //PO ZAKOŃCZENIU ODTWARZANIA
         private void Ending_Actions(object sender, EventArgs e)
         {
@@ -236,7 +233,7 @@ namespace StarVideoPlayer
                         {
                             mediaFile.Add(new Video(file, false));
                         }
-                        else //dla plików audio
+                        else if (ofd.FilterIndex == 2) //dla plików audio
                         {
                             mediaFile.Add(new Audio(file, false));
                         }
@@ -258,23 +255,29 @@ namespace StarVideoPlayer
 
         private void VolumeControl_Scroll(object sender, EventArgs e)
         {
-            if (video.Playing && (video != null)) video.Audio.Volume = volumeControl.Value; //Audio.Volume jest z zakresu (-10000, 0), gdzie 0 to maksymalna głośność - im mniejsza wartość tym bardziej jest wyciszone
-            else if (audio.Playing && (audio != null)) audio.Volume = volumeControl.Value;
+            if (video.Playing && video != null) video.Audio.Volume = volumeControl.Value; //Audio.Volume jest z zakresu (-10000, 0), gdzie 0 to maksymalna głośność - im mniejsza wartość tym bardziej jest wyciszone
+            else if (audio.Playing && audio != null) audio.Volume = volumeControl.Value;
             else volumeControl.Value = -1500;
         }
 
 
         private void ControlFileProgress(Object fileProvided)
         {
+            fileCurrentPositionLabel.ResetText();
+
             if (fileProvided.GetType() == typeof(Video))
             {
                 videoProgressControl.Maximum = Convert.ToInt32(video.Duration); //ustawia maksymalną wartość paska na długość filmu
                 video.CurrentPosition = videoProgressControl.Value; //sterowanie czasem filmu za pomocą suwaka
+                TimeSpan ts = TimeSpan.FromSeconds(video.Duration);
+                fileDurationLabel.Text = string.Format("{0}", new DateTime(ts.Ticks).ToString("HH:mm:ss")); //pokazuje długość trwania filmu w labelu
             }
             else if (fileProvided.GetType() == typeof(Audio))
             {
-                videoProgressControl.Maximum = Convert.ToInt32(audio.Duration); //ustawia maksymalną wartość paska na długość filmu
-                audio.CurrentPosition = videoProgressControl.Value; //sterowanie czasem filmu za pomocą suwaka
+                videoProgressControl.Maximum = Convert.ToInt32(audio.Duration); //ustawia maksymalną wartość paska na długość audio
+                audio.CurrentPosition = videoProgressControl.Value; //sterowanie czasem audio za pomocą suwaka
+                TimeSpan ts = TimeSpan.FromSeconds(audio.Duration);
+                fileDurationLabel.Text = string.Format("{0}", new DateTime(ts.Ticks).ToString("HH:mm:ss")); //pokazuje czas trwania audio
             }
         }
 
@@ -282,27 +285,20 @@ namespace StarVideoPlayer
         private void VideoProgressControl_Scroll(object sender, EventArgs e)
         {
             if (mediaFile.Count != 0) ControlFileProgress(mediaFile[selectedIndex]);
-
-        }
-
-        private void UpdateLabelsText(Object fileProvided)
-        {
-            if (fileProvided.GetType() == typeof(Video))
-            {
-                //if (!timer.Enabled) timer.Enabled = true;
-                fileDurationLabel.Text = Convert.ToInt32(video.Duration).ToString(); //pokazuje obecny czas, w którym znajduje się film na labelu
-                fileCurrentPositionLabel.Text = Convert.ToInt32(video.CurrentPosition).ToString(); //pokazuje długość trwania filmu w labelu
-            }
-            else if (fileProvided.GetType() == typeof(Audio))
-            {
-                //if (!timer.Enabled) timer.Enabled = true;
-                fileDurationLabel.Text = Convert.ToInt32(audio.Duration).ToString(); //pokazuje obecny czas, w którym znajduje się film na labelu
-                fileCurrentPositionLabel.Text = Convert.ToInt32(audio.CurrentPosition).ToString(); //pokazuje długość trwania filmu w labelu
-            }
         }
 
         private void Timer1_Tick(object sender, EventArgs e)
         {
+            TimeSpan ts = new TimeSpan();
+            if (videoProgressControl.Value < videoProgressControl.Maximum) videoProgressControl.Value += 1;
+            if (video.Playing && video != null)
+            {
+                ts = TimeSpan.FromSeconds(video.CurrentPosition);
+            } else if (audio.Playing && audio != null)
+            {
+                ts = TimeSpan.FromSeconds(audio.CurrentPosition);
+            }
+            fileCurrentPositionLabel.Text = string.Format("{0}", new DateTime(ts.Ticks).ToString("HH:mm:ss"));
             //if (mediaFile.Count != 0) UpdateLabelsText(mediaFile[selectedIndex]);
         }
 
