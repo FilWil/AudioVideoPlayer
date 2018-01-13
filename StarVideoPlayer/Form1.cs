@@ -15,6 +15,13 @@ namespace StarVideoPlayer
 {
     public partial class Form1 : Form
     {
+        /*
+         TODO:
+         tylko timer ogarnac 
+         paski dzwieku i pozycji zeby kursor podążał za wartością
+         mozna ewentualnie dodac funkcjonalnosci do przyciskow z lewej jakies proste
+        */
+
         //ZMIENNE GLOBALNE
         bool moveFlag = false;                                      //flaga, która sprawdza czy wciśnięto za pomocą myszki panel do przenoszenia okna
         int mousePositionX, mousePositionY;                         //koordynaty myszki
