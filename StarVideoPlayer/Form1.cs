@@ -82,8 +82,12 @@ namespace StarVideoPlayer
             if (mediaFile.Count > 0 && selectedIndex < mediaFile.Count - 1)
             {
                 selectedIndex++;
-                Player(mediaFile[selectedIndex]);
             }
+            else
+            {
+                selectedIndex = 0;
+            }
+            Player(mediaFile[selectedIndex]);
 
             if (panelMaximized)
             {
@@ -102,8 +106,12 @@ namespace StarVideoPlayer
             if (mediaFile.Count > 0 && selectedIndex != 0)
             {
                 selectedIndex--;
-                Player(mediaFile[selectedIndex]);
             }
+            else
+            {
+                selectedIndex = mediaFile.Count - 1;
+            }
+            Player(mediaFile[selectedIndex]);
 
             if (panelMaximized)
             {
@@ -299,17 +307,10 @@ namespace StarVideoPlayer
             } else if (audio.Playing && audio != null)
             {
                 ts = TimeSpan.FromSeconds(audio.CurrentPosition);
-            }
+            } else { }
             fileCurrentPositionLabel.Text = string.Format("{0}", new DateTime(ts.Ticks).ToString("HH:mm:ss"));
             //if (mediaFile.Count != 0) UpdateLabelsText(mediaFile[selectedIndex]);
         }
-
-
-        /// <summary>
-        /// RESZTA PONIŻEJ (COŚ, CO NIE WYMAGA PLAYERA ANI INTERACKJI Z NIM)
-        /// </summary>
-
-
 
         private void HeadPanel_MouseDown(object sender, MouseEventArgs e)
         {
