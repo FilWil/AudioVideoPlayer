@@ -18,7 +18,6 @@ namespace StarVideoPlayer
         /*
          TODO:
          mozna ewentualnie dodac funkcjonalnosci do przyciskow z lewej jakies proste
-         tylko formaty dobrac dzialajace
          okładki z metadanych - sprawdzić jak to zrobić [https://www.youtube.com/watch?v=C305CxPCBKY]
         */
 
@@ -31,9 +30,6 @@ namespace StarVideoPlayer
         private Audio audio;                                        //prywatna zmienna pobierająca aktualnie wybrane audio
 
         private List<Object> mediaFile = new List<Object>();
-        //private List<Tuple<Video, Audio>> filesPaths = new List<Tuple<Video, Audio>>();
-        //private Object multimediaFile;
-        //private List<Object> filesPaths = new List<Object>();
 
         private int selectedIndex = 0;
 
