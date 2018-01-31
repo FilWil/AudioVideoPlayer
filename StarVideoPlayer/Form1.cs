@@ -210,7 +210,8 @@ namespace StarVideoPlayer
             {
                 foreach (string file in ofd.FileNames)
                 {
-                    try {
+                    try 
+                    {
                         if (ofd.FilterIndex == 1) //dla plików video
                         {
                             mediaFile.Add(new Video(file, false));
@@ -220,8 +221,12 @@ namespace StarVideoPlayer
                             mediaFile.Add(new Audio(file, false));
                         }
                     }
-                    catch (Exception ex) { Debug.WriteLine(ex); }
-                    finally {
+                    catch (Exception ex) 
+                    {
+                        Debug.WriteLine(ex);
+                    }
+                    finally 
+                    {
                         MessageBox.Show("Wprowadzono pliki do listy!");
                     }
                 }
