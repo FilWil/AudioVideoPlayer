@@ -15,13 +15,7 @@ namespace StarVideoPlayer
 {
     public partial class Form1 : Form
     {
-        /*
-         TODO:
-         mozna ewentualnie dodac funkcjonalnosci do przyciskow z lewej jakies proste
-         okładki z metadanych - sprawdzić jak to zrobić [https://www.youtube.com/watch?v=C305CxPCBKY]
-        */
-
-        //ZMIENNE GLOBALNE
+        //GLOBAL VARIABLES
         bool moveFlag = false;                                      //flaga, która sprawdza czy wciśnięto za pomocą myszki panel do przenoszenia okna
         int mousePositionX, mousePositionY;                         //koordynaty myszki
         bool panelMaximized = false;                                //flaga sprawdzająca czy okno zostało zmaksymalizowane
@@ -29,12 +23,12 @@ namespace StarVideoPlayer
         private Video video;                                        //prywatna zmienna pobierająca aktualnie wybrane video
         private Audio audio;                                        //prywatna zmienna pobierająca aktualnie wybrane audio
 
-        private List<Object> mediaFile = new List<Object>();
+        private List<Object> mediaFile = new List<Object>();        //lista obiektów
 
-        private int selectedIndex = 0;
+        private int selectedIndex = 0;                              //indeks wybranego obiektu z listy mediaFile
 
+        //Load Form1
         public Form1() { InitializeComponent(); }
-
         private void Form1_Load(object sender, EventArgs e) { }
 
         //PRZYCISK ZAMYKANIA - CLOSE APPLICATION
@@ -75,58 +69,34 @@ namespace StarVideoPlayer
         private void NextItem()
         {
             DiscardFile(mediaFile[selectedIndex]);
-            if (mediaFile.Count > 0 && selectedIndex < mediaFile.Count - 1)
-            {
-                selectedIndex++;
-            }
-            else
-            {
-                selectedIndex = 0;
-            }
+            if (mediaFile.Count > 0 && selectedIndex < mediaFile.Count - 1) selectedIndex++;
+            else selectedIndex = 0;
+            
             Player(mediaFile[selectedIndex]);
 
-            if (panelMaximized)
-            {
-                playerPanel.Size = new Size(Width, Height);
-            }
-            else
-            {
-                playerPanel.Size = new Size(819, 610);
-            }
+            panelChange();
         }
 
         //REAKCJA NA PRZYCISK POPRZEDNIEGO ITEMU
         private void PreviousVideo()
         {
             DiscardFile(mediaFile[selectedIndex]);
-            if (mediaFile.Count > 0 && selectedIndex != 0)
-            {
-                selectedIndex--;
-            }
-            else
-            {
-                selectedIndex = mediaFile.Count - 1;
-            }
+            if (mediaFile.Count > 0 && selectedIndex != 0) selectedIndex--;
+            else selectedIndex = mediaFile.Count - 1;
+
             Player(mediaFile[selectedIndex]);
 
-            if (panelMaximized)
-            {
-                playerPanel.Size = new Size(Width, Height);
-            }
-            else
-            {
-                playerPanel.Size = new Size(819, 610);
-            }
+            panelChange();
         }
 
-        //public delegate void DiscardedFileEventHandler(object o, EventArgs e); //Delegat do funkcji DiscardFile() 
-        //public DiscardedFileEventHandler DiscardedFile;
+        //ZMIANA WYMIARU PANELU PRZY AUDIO/VIDEO
+        private void panelChange() 
+        {
+            if (panelMaximized) playerPanel.Size = new Size(Width, Height);
+            else playerPanel.Size = new Size(819, 610);
+        }
 
-        //protected virtual void OnDiscardedVideo(Object fileProvided)
-        //{
-        //    DiscardedFile?.Invoke(this, EventArgs.Empty);
-        //}
-
+        //ODRZUCANIE PLIKU (WYŁĄCZENIE GRY PLIKU)
         private void DiscardFile(Object fileProvided)
         {
             try
@@ -144,9 +114,13 @@ namespace StarVideoPlayer
                     audio.Stop();
                 }
             }
-            catch { }
+            catch (Exception ex) 
+            {
+                Debug.WriteLine(ex);
+            }
         }
 
+        //ZATRZYMANIE GRY
         private void StopPlaying(Object fileProvided)
         {
             if (fileProvided.GetType() == typeof(Video))
@@ -173,6 +147,7 @@ namespace StarVideoPlayer
             }
         }
 
+        //PLAYER
         private void Player(Object fileProvided)
         {
             if (mediaFile != null)
@@ -216,11 +191,13 @@ namespace StarVideoPlayer
             });
         }
 
+        //ZDARZENIE NA PRZYCISKU PLAY
         private void PlayButton_Click(object sender, EventArgs e)
         {
             if (mediaFile.Count != 0) Player(mediaFile[selectedIndex]);
         }
 
+        //FILE DIALOG - WYBÓR PLIKÓW
         private void FilesDialogButton_Click(object sender, EventArgs e)
         {
             var ofd = new OpenFileDialog
@@ -233,8 +210,7 @@ namespace StarVideoPlayer
             {
                 foreach (string file in ofd.FileNames)
                 {
-                    try
-                    {
+                    try {
                         if (ofd.FilterIndex == 1) //dla plików video
                         {
                             mediaFile.Add(new Video(file, false));
@@ -244,10 +220,9 @@ namespace StarVideoPlayer
                             mediaFile.Add(new Audio(file, false));
                         }
                     }
-                    catch { }
-                    finally
-                    {
-
+                    catch (Exception ex) { Debug.WriteLine(ex); }
+                    finally {
+                        MessageBox.Show("Wprowadzono pliki do listy!");
                     }
                 }
             }
@@ -259,14 +234,15 @@ namespace StarVideoPlayer
             if (mediaFile.Count != 0) StopPlaying(mediaFile[selectedIndex]);
         }
 
+        //Zmiana głośności poprzez pasek
         private void VolumeControl_Scroll(object sender, EventArgs e)
         {
             if (video.Playing && video != null) video.Audio.Volume = volumeControl.Value; //Audio.Volume jest z zakresu (-10000, 0), gdzie 0 to maksymalna głośność - im mniejsza wartość tym bardziej jest wyciszone
             else if (audio.Playing && audio != null) audio.Volume = volumeControl.Value;
             else volumeControl.Value = -1500;
         }
-
-
+        
+        //Kontrolowanie progresu plików
         private void ControlFileProgress(Object fileProvided)
         {
             fileCurrentPositionLabel.ResetText();
@@ -293,6 +269,7 @@ namespace StarVideoPlayer
             if (mediaFile.Count != 0) ControlFileProgress(mediaFile[selectedIndex]);
         }
 
+        //Działanie licznika
         private void Timer1_Tick(object sender, EventArgs e)
         {
             TimeSpan ts = new TimeSpan();
@@ -300,25 +277,24 @@ namespace StarVideoPlayer
             if (video.Playing && video != null)
             {
                 ts = TimeSpan.FromSeconds(video.CurrentPosition);
-            } else if (audio.Playing && audio != null)
+            }
+            else if (audio.Playing && audio != null)
             {
                 ts = TimeSpan.FromSeconds(audio.CurrentPosition);
-            } else { }
+            } 
             fileCurrentPositionLabel.Text = string.Format("{0}", new DateTime(ts.Ticks).ToString("HH:mm:ss"));
-            //if (mediaFile.Count != 0) UpdateLabelsText(mediaFile[selectedIndex]);
         }
 
         private void HeadPanel_MouseDown(object sender, MouseEventArgs e)
         {
-            moveFlag = true; //jeśli naciśnięto za pomocą myszki na panel, to flaga ustawia się na true
-            //ustawia koordynaty myszki na obecne jej położenie
+            moveFlag = true; //jeśli naciśnięto za pomocą myszki na panel, to flaga ustawia się na true ustawia koordynaty myszki na obecne jej położenie
             mousePositionX = Cursor.Position.X - Left;
             mousePositionY = Cursor.Position.Y - Top;
         }
 
         private void HeadPanel_MouseMove(object sender, MouseEventArgs e)
         {
-            if(moveFlag) 
+            if (moveFlag) 
             {
                 Top = Cursor.Position.Y - mousePositionY;
                 Left = Cursor.Position.X - mousePositionX;
@@ -331,6 +307,7 @@ namespace StarVideoPlayer
             MaximizeWindowSize();
         }
        
+        //Działanie przy maksymalizacji
         private void MaximizeButton_Click(object sender, EventArgs e)
         {
             MaximizeWindowSize();
@@ -340,14 +317,8 @@ namespace StarVideoPlayer
         {
             //logika, która pozwala maksymalizowac okno, jeśli jest niezmaksymalizowane oraz wracać do wyjściowego stanu, jeśli było zmaksymalizowane
             //po dwukrotnym wciśnięciu myszy
-            if (panelMaximized == false)
-            {
-                panelMaximized = true;
-            }
-            else
-            {
-                panelMaximized = false;
-            }
+            if (panelMaximized == false) panelMaximized = true;
+            else panelMaximized = false;
 
             if (panelMaximized)
             {

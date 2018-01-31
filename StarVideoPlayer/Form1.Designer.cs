@@ -32,7 +32,6 @@
             this.leftPanel = new System.Windows.Forms.Panel();
             this.logoPictureBox = new System.Windows.Forms.PictureBox();
             this.filesDialogButton = new System.Windows.Forms.Button();
-            this.nowPlayingButton = new System.Windows.Forms.Button();
             this.controlsPanel = new System.Windows.Forms.Panel();
             this.fileDurationLabel = new System.Windows.Forms.Label();
             this.fileCurrentPositionLabel = new System.Windows.Forms.Label();
@@ -49,10 +48,6 @@
             this.maximizeButton = new System.Windows.Forms.Button();
             this.exitButton = new System.Windows.Forms.Button();
             this.timer = new System.Windows.Forms.Timer(this.components);
-            this.recentlyViewedButton = new System.Windows.Forms.Button();
-            this.recentlyPlayedButton = new System.Windows.Forms.Button();
-            this.recentlyAddedButton = new System.Windows.Forms.Button();
-            this.favoritesButton = new System.Windows.Forms.Button();
             this.leftPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.logoPictureBox)).BeginInit();
             this.controlsPanel.SuspendLayout();
@@ -65,12 +60,7 @@
             // 
             this.leftPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(18)))), ((int)(((byte)(87)))), ((int)(((byte)(74)))));
             this.leftPanel.Controls.Add(this.logoPictureBox);
-            this.leftPanel.Controls.Add(this.favoritesButton);
-            this.leftPanel.Controls.Add(this.recentlyAddedButton);
             this.leftPanel.Controls.Add(this.filesDialogButton);
-            this.leftPanel.Controls.Add(this.recentlyPlayedButton);
-            this.leftPanel.Controls.Add(this.recentlyViewedButton);
-            this.leftPanel.Controls.Add(this.nowPlayingButton);
             this.leftPanel.Dock = System.Windows.Forms.DockStyle.Left;
             this.leftPanel.Location = new System.Drawing.Point(0, 0);
             this.leftPanel.Name = "leftPanel";
@@ -102,20 +92,6 @@
             this.filesDialogButton.Text = "\r\n";
             this.filesDialogButton.UseVisualStyleBackColor = true;
             this.filesDialogButton.Click += new System.EventHandler(this.FilesDialogButton_Click);
-            // 
-            // nowPlayingButton
-            // 
-            this.nowPlayingButton.FlatAppearance.BorderSize = 0;
-            this.nowPlayingButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.nowPlayingButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.nowPlayingButton.ForeColor = System.Drawing.Color.White;
-            this.nowPlayingButton.Location = new System.Drawing.Point(0, 117);
-            this.nowPlayingButton.Name = "nowPlayingButton";
-            this.nowPlayingButton.Size = new System.Drawing.Size(189, 63);
-            this.nowPlayingButton.TabIndex = 0;
-            this.nowPlayingButton.Text = "     Now Playing";
-            this.nowPlayingButton.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.nowPlayingButton.UseVisualStyleBackColor = true;
             // 
             // controlsPanel
             // 
@@ -161,7 +137,7 @@
             this.volumeControl.Maximum = 0;
             this.volumeControl.Minimum = -3000;
             this.volumeControl.Name = "volumeControl";
-            this.volumeControl.Size = new System.Drawing.Size(99, 45);
+            this.volumeControl.Size = new System.Drawing.Size(99, 42);
             this.volumeControl.SmallChange = 500;
             this.volumeControl.TabIndex = 6;
             this.volumeControl.Value = -1500;
@@ -191,7 +167,7 @@
             this.videoProgressControl.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.videoProgressControl.Location = new System.Drawing.Point(66, 22);
             this.videoProgressControl.Name = "videoProgressControl";
-            this.videoProgressControl.Size = new System.Drawing.Size(273, 45);
+            this.videoProgressControl.Size = new System.Drawing.Size(273, 42);
             this.videoProgressControl.TabIndex = 8;
             this.videoProgressControl.Scroll += new System.EventHandler(this.VideoProgressControl_Scroll);
             // 
@@ -350,62 +326,6 @@
             this.timer.Enabled = true;
             this.timer.Interval = 1000;
             // 
-            // recentlyViewedButton
-            // 
-            this.recentlyViewedButton.FlatAppearance.BorderSize = 0;
-            this.recentlyViewedButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.recentlyViewedButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.recentlyViewedButton.ForeColor = System.Drawing.Color.White;
-            this.recentlyViewedButton.Location = new System.Drawing.Point(3, 186);
-            this.recentlyViewedButton.Name = "recentlyViewedButton";
-            this.recentlyViewedButton.Size = new System.Drawing.Size(189, 63);
-            this.recentlyViewedButton.TabIndex = 1;
-            this.recentlyViewedButton.Text = "     Recently Viewed";
-            this.recentlyViewedButton.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.recentlyViewedButton.UseVisualStyleBackColor = true;
-            // 
-            // recentlyPlayedButton
-            // 
-            this.recentlyPlayedButton.FlatAppearance.BorderSize = 0;
-            this.recentlyPlayedButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.recentlyPlayedButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.recentlyPlayedButton.ForeColor = System.Drawing.Color.White;
-            this.recentlyPlayedButton.Location = new System.Drawing.Point(0, 255);
-            this.recentlyPlayedButton.Name = "recentlyPlayedButton";
-            this.recentlyPlayedButton.Size = new System.Drawing.Size(189, 63);
-            this.recentlyPlayedButton.TabIndex = 2;
-            this.recentlyPlayedButton.Text = "     Recently Played";
-            this.recentlyPlayedButton.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.recentlyPlayedButton.UseVisualStyleBackColor = true;
-            // 
-            // recentlyAddedButton
-            // 
-            this.recentlyAddedButton.FlatAppearance.BorderSize = 0;
-            this.recentlyAddedButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.recentlyAddedButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.recentlyAddedButton.ForeColor = System.Drawing.Color.White;
-            this.recentlyAddedButton.Location = new System.Drawing.Point(0, 324);
-            this.recentlyAddedButton.Name = "recentlyAddedButton";
-            this.recentlyAddedButton.Size = new System.Drawing.Size(189, 63);
-            this.recentlyAddedButton.TabIndex = 3;
-            this.recentlyAddedButton.Text = "     Recently Added";
-            this.recentlyAddedButton.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.recentlyAddedButton.UseVisualStyleBackColor = true;
-            // 
-            // favoritesButton
-            // 
-            this.favoritesButton.FlatAppearance.BorderSize = 0;
-            this.favoritesButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.favoritesButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.favoritesButton.ForeColor = System.Drawing.Color.White;
-            this.favoritesButton.Location = new System.Drawing.Point(3, 393);
-            this.favoritesButton.Name = "favoritesButton";
-            this.favoritesButton.Size = new System.Drawing.Size(189, 63);
-            this.favoritesButton.TabIndex = 4;
-            this.favoritesButton.Text = "     Favorites";
-            this.favoritesButton.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.favoritesButton.UseVisualStyleBackColor = true;
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -443,7 +363,6 @@
         private System.Windows.Forms.Button stopButton;
         private System.Windows.Forms.Button previousTrackButton;
         private System.Windows.Forms.Button nextTrackButton;
-        private System.Windows.Forms.Button nowPlayingButton;
         private System.Windows.Forms.PictureBox logoPictureBox;
         private System.Windows.Forms.TrackBar volumeControl;
         private System.Windows.Forms.Button filesDialogButton;
@@ -452,10 +371,6 @@
         private System.Windows.Forms.Label fileDurationLabel;
         private System.Windows.Forms.Label fileCurrentPositionLabel;
         private System.Windows.Forms.Timer timer;
-        private System.Windows.Forms.Button favoritesButton;
-        private System.Windows.Forms.Button recentlyAddedButton;
-        private System.Windows.Forms.Button recentlyPlayedButton;
-        private System.Windows.Forms.Button recentlyViewedButton;
     }
 }
 
